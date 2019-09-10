@@ -1,0 +1,582 @@
+Derge,Taisho,Note
+1,,"This comes from the reconciliation of all the other sheets, with indexes above D4464 being removed"
+1-1,1444,
+1-3,1446,
+1-4,1445,
+1-5,1447,
+1-6,1448,
+1-17,1450,
+2,1454,
+3,1442,
+4,1455,
+5,1443,
+6,1451,
+7,1435,
+7a,,
+8,220(1),
+9,"222,220(2),223,221",
+10,220(3),
+12,"224,225,226,227,228,220(4-5)",
+13,229,
+14,"220(16),231",
+15,260,
+16,"235,236,237,238,239,220(9)",
+17,"240,241,242,243,244,220(10)",
+18,248,
+19,249,
+21,"250,251,252,253,254,255,256,257",
+22,258,
+24,"232,233,310(46),220(7)",
+25,230,
+31,"109,110",
+33,"1244,1245",?very odd?
+34,19,
+36,138,
+39,597,
+41,,"originally 99(583), I won't import that as I won't have the details for the chapters of 99"
+42,,99(583)
+44,"279,278",
+44-31,"285,287,286",
+44-45,"293,294,295",
+44-45e,"296,297","in the Derge, this text is part of the 45th chapter, we split it here as it has some separate correspondences"
+45,"311,310(1)",
+46,310(2),
+47,"310(3),312",
+48,310(4),
+49,"310(5),360,361,362,363,364",
+50,"313,310(6)",
+51,310(7),
+52,310(8),
+53,"310(9),314",
+54,"310(10),315",
+55,310(11),
+56,"316,310(12)",
+57,310(14),
+58,"310(13),317",
+59,"310(15),319,318",
+60,"310(16),320",
+61,310(17),
+62,"310(18),321",
+63,"310(19),322,323",
+64,310(20),
+65,"310(21),324",
+66,310(22),
+67,310(23),
+68,"310(24),325,326",
+69,"327,310(25)",
+70,310(26),
+71,"328,310(27),329",
+72,"310(28),330,331",
+73,"333,332,310(29)",
+74,"310(30),334,336,335",
+75,310(31),
+76,"310(32),337",
+77,"339,338,310(33)",
+78,310(34),
+79,"310(35),340",
+80,"310(36),341,342",
+81,"343,344,310(37)",
+82,"310(38),346,345",
+83,"310(39),347",
+84,310(40),
+85,"348,310(41)",
+86,"349,310(42)",
+87,"310(43),350,352,351",
+88,310(44),
+89,310(45),
+90,"232,233,310(46),220(7)",
+91,310(47),
+92,"353,310(48)",
+93,"354,310(49)",
+94,425,
+95,"187,186",
+96,"818,817",
+97,589,
+98,1375,
+100,"357,358,359",
+101,657,
+102,"424,423",
+103,484,
+104,"289,290",
+105,486,
+106,"675,676,677,679,678","? not sure these are all the same, it's not very clear in the Hobogirin... maybe replacing with 675,676 is safer"
+107,"670,671,672",
+108,,"this is just one chapter of the Lamkaravatara, translated from the Chinese (T0670)"
+109,"467,466,465,464",
+110,"681,682",
+111,380,
+112,"158,157",
+113,"262,263,264",
+114,1374,
+115,"366,367",
+116,1050,
+117,"462,461",
+118,"355,356",
+119,"374,375,376",add 377?
+120,"376,375(1-18),374(1-6)"," this is quite complex, see Taisho-group spreadsheet ?"
+121,390,
+123,653,
+127,639,640 and 641 are partial translations
+129,648,
+130,"371,372",
+131,"632,633,634",
+132,642,
+133,"419,416,417,418",
+134,"382,381",
+135,273,
+136,"378,379",
+138,"397(9),402",
+139,"1344,1345",
+140,"1016,1014,1009,1011,1017,1013,1018,1012,1015",
+141,1360,
+142,654,
+145,299,
+146,"271,272",
+147,"397(1),397(2),398",
+148,"404,397(8)",
+149,"349,310(42)",different translation of the same indic text as D86 ?
+151,544,
+152,"400,397(5)",
+153,598,
+154,601,
+155,599,
+156,635,
+157,"625,624",
+160,"585,586,587",
+161,588,
+163,433,
+164,437,
+165,533,
+167,"420,421",
+169,"399,397(3)",
+170,"567,568",
+171,"561,560,559",
+172,"661,473,662",
+173,846,1643 was also indicated but I think it's a commentary?
+174,"481,482",
+175,"397(12),403",
+176,"474,475,476",
+177,774,
+178,472,
+179,"460,1489,1490",
+180,"652,651,650",
+181,220(11-15),
+183,705,
+184,488,
+185,"302,303,304",
+187,,"original indication: 278(28),279(33) but cannot really record that because we don't have outlines for these yet"
+190,"566,565",
+191,480,
+192,573,
+196,"470,471",
+199,452,
+200,807,
+201,305,
+202,"646,645",
+204,702,
+207,"813,814",
+209,"835,836",
+210,"709,712,710,708,711",
+211,"124,123",
+213,"119,118,120",
+216,"629,628,627,626",
+217,545,
+218,1494,
+219,"1491,1493",
+220,653,
+221,"514,516,515",add 593 ? see Taisho-groups
+222,270,
+226,"576,575,577",
+227,"275,274",
+228,810,
+230,397(16),
+231,"659,658,489",
+232,387,
+235,"992,989,991,993",
+236,945,
+238,761,
+239,"410,411",
+240,"266,267,268",
+242,998,
+246,"833,834",
+251,"773,772",maybe also 771? see Taisho-groups
+252,774,
+256,1484,
+257,397(14),
+258,"666,667",
+259,"829,830,828",
+260,"407,405,408,406",
+261,"310(38),346,345",
+262,443,
+266,434,
+269,435,
+270,"1333,1334,1147",
+271,"427,428,429,430,431",
+272,310(34),
+273,"1348,1349",
+274,438,
+275,680,
+276,,"TT has 811,831 but these two don't seem related... ?"
+277,"430,431",suspicous... same as 271 ?
+278,429,
+287,728,also 721(1-18) but will be automatic once we have outlines
+289,41,also 26(62)
+290,,26(190) but we have no outline
+291,,26(191)
+292,,99(980)
+293,,99(981)
+296,,99(1226)
+297,776,also 26(181)
+300,,99(726)
+307,759,
+309,801,
+310,758,
+313,1362,also 26(165)
+316,"763,762","125(25),99(403)"
+317,"763,762",
+318,"97,98",
+319,"688,689",
+321,700,
+326,"210,211,212,213",
+329,592,
+330,,99(1299)
+331,,99(583)
+332,704,
+335,785,
+336,,also 785 but doesn't fit in the model... maybe 335+336 should be grouped together?
+337,"110,109",99(379)
+338,"78,79,80,81,755","initally just 80,81, see Taisho-groups ?"
+339,"78,26(170),79,81","initially just 78,26(170),79,81, see Taisho-groups ?"
+341,202,
+342,584,
+343,200,
+345,595,
+347,173,
+348,166,also 153(5)
+350,162,
+351,171,"152(14),"
+352,21,also 1(21)
+353,156,
+354,2881,really? odd
+358,"551,552,1300,1301",
+359a,784,
+360,"1189,1190,1188,1187",see Taisho-groups ?
+417,892,
+438,"1108B,1108A","Dharani / stotra, to remove?"
+442,885,
+452,887,
+466,890,
+479,"866,882,865",
+481,888,
+482,"1171,1172",These two are not grouped together in the Hobogirin... what to do?
+487,,"? originally same parallels as D17 but does't sound right... this is quite entangled, TT indicated only a parallel with 244"
+488,,244(14-25) ?
+489,"240,241,242,243,244,220(10)",same as D17 so has the same parallels
+490,886,
+494,848,
+503,"449,450,451",originally also contained 1331 which is in a different group in the Taisho...?
+504,,"originally 449,450,451,1331?? but can't really be the same as before?"
+505,"1023,1022a",
+506,"1006,1005a,1007",
+507,"1023,1022a",Dharani
+508,1008,
+510,1024,
+511,"1348,1349",
+512,"1147,1333,1334",same as D270 so same parallels
+513,,"1346,1347, not recording because Dharani cases are unclear"
+514,"918,919",
+516,"1357,1356,1358,1359",Dharani
+518,1387,
+522,"1397,1398",
+525,"1016,1014,1009,1011,1017,1013,1018,1012,1015",Dharani
+526,1360,
+527,1374,
+528,,"originally 1353,1352,1355,1029,1354,1351 but ignoring"
+529,1371,
+530,258,
+531,"250,251,252,253,254,255,256,257",
+539,1411,
+540,1386,
+542,"1408,1409",
+543,"1191,1215,1216",does not correspond to a group in the Taisho! remove?
+552,1190,
+553,230,
+554,249,
+555,"663,665,664",these 3 are entangled... not sure how to deal with that
+556,"663,665,664",same
+557,"663,999,665,664",same... is 557 similar to 556 ?
+558,999,
+559,"985,984,982,983A",
+561,"1153,1154",
+564,,"removing (Dharani) 1257,1255,1254,1256"
+565,1257,removing (Dharani)
+566,1257,removing (Dharani)
+570,1404,removing (Dharani)
+571,1264,removing (Dharani)
+572,1264,removing (Dharani)
+575,1047,
+585,1021,
+590,"977,976",removing (Dharani)
+592,"977,976",removing (Dharani)
+593,"977,976",removing (Dharani)
+594,"971,978",removing (Dharani)
+595,"cf:979,979 cf.,978",removing (Dharani)
+596,"cf:979,979 cf.,978",removing (Dharani)
+597,"974,967",removing (Dharani)
+598,978,removing (Dharani)
+599,1025,removing (Dharani)
+604,1217,
+606,1392,
+609,1373,
+612,943,
+613,"1075,1076,1077",removing (Dharani)
+614,"1137,1138,1139,1140",removing (Dharani)
+617,"1362,26(165) cf.",removing (Dharani)
+619,1324,
+621,1325,
+622,1323,
+637,1127,
+642,"1190,1197",removing (Dharani)
+643,1143,
+644,"1168A,1167,1168a,1168B",removing (Dharani)
+646,"1313,1314",removing (Dharani)
+647,"1313,1314",removing (Dharani)
+656,"1244,1245",removing (Dharani)
+657,"992,989,993,991",removing (Dharani)
+660,"1302,1303",removing (Dharani)
+661,"1302,1303",removing (Dharani)
+662,"1162,1163,1164",removing (Dharani)
+663,1165,removing (Dharani)
+664,1165,removing (Dharani)
+674,"937,936",removing (Dharani)
+675,"937,936",removing (Dharani)
+676,370,
+679,"369,934,1316,1317",removing (Dharani)
+682,"1092,1094,1099,1095,1093",removing (Dharani)
+683,"1092,1094,1099,1092(1),1095,1093",removing (Dharani)
+684,1099,removing (Dharani)
+686,"1093 cf.,1092,901(828),1095 cf.,1095,1094 cf.,1096 cf.,1099,901(828) cf.,1097,cf:1093,1099 cf.,1096,1098,1094,1097 cf.,1098 cf.",removing (Dharani)
+687,1092,removing (Dharani)
+688,1092,removing (Dharani)
+690,"1063 cf.,cf:1056,1058 cf.,1058,1057,1062a,1062b cf.,1060,1056 cf.,1064 cf.,1061 cf.,1057 cf.,1062a cf.,1062b,1061",removing (Dharani)
+691,"1057,1058,1060",removing (Dharani)
+692,"1082,1080,1083,1081",removing (Dharani)
+693,"1070,901(812),1071",removing (Dharani)
+694,"1070,901(812),1071",removing (Dharani)
+697,"1113b,1111,1112,1113B,1113A,1061,1113a",removing (Dharani)
+699,"1037,1038",removing (Dharani)
+705,1054,removing (Dharani)
+710,"1034,1036,901(5),1035",removing (Dharani)
+711,1036,removing (Dharani)
+712,901(5),removing (Dharani)
+721,1375,removing (Dharani)
+725,1117,removing (Dharani)
+727,"1107,cf:1105,1106,1105 cf.",removing (Dharani)
+728,"1107,1105,1107 cf.,1106 cf.,1106",removing (Dharani)
+733,901(14),removing (Dharani)
+735,1100,removing (Dharani)
+736,1384,removing (Dharani)
+739,1253,removing (Dharani)
+740,1252,removing (Dharani)
+741,1252,removing (Dharani)
+745,"1107,1107 cf.,cf:1105,1106,1105 cf.",removing (Dharani)
+747,1129,removing (Dharani)
+748,"1416,1417",Only in Adarsha
+750,"1416,1417",removing (Dharani)
+751,1415,removing (Dharani)
+753,1416,removing (Dharani)
+757,1243,removing (Dharani)
+764,1285,removing (Dharani)
+769,1285,removing (Dharani)
+770,1283,removing (Dharani)
+772,1377,removing (Dharani)
+805,"895,896",removing (Dharani)
+806,897,removing (Dharani)
+807,893,removing (Dharani)
+847,299,removing (Dharani)
+848,"1397,1398",removing (Dharani)
+849,"937,936",removing (Dharani)
+850,370,removing (Dharani)
+851,"369,934,1316,1317",removing (Dharani)
+852,"1147,1333,1334",same as D270 so same parallels
+853,"1348,1349",removing (Dharani)
+854,"918,919",removing (Dharani)
+856,"1346,1347",removing (Dharani)
+857,1387,removing (Dharani)
+858,"1353,1352,1355,1029,1354,1351",removing (Dharani)
+866,1411,removing (Dharani)
+872,"1408,1409",removing (Dharani)
+877,1127,removing (Dharani)
+882,"1168A,1167,1168a,1168B",removing (Dharani)
+883,"1023,1022a",removing (Dharani)
+885,"1006,1005a,1007",removing (Dharani)
+886,"1357,1356,1358,1359,1007",removing (Dharani)
+887,"1358,1359",removing (Dharani)
+888,1371,removing (Dharani)
+890,1143,removing (Dharani)
+897,"1057,1058,1060",removing (Dharani)
+898,"1082,1080,1083,1081",removing (Dharani)
+899,"1070,1071,901(812)",removing (Dharani)
+900,1054,removing (Dharani)
+901,"1092,1094,1099,1092(1),1095,1093",removing (Dharani)
+902,1092,removing (Dharani)
+903,1092,removing (Dharani)
+904,"1037,1038",removing (Dharani)
+905,"1113b,1111,1112,1113B,1113A,1061,1113a",removing (Dharani)
+906,"901(14),901",removing (Dharani)
+907,1377,removing (Dharani)
+909,1117,removing (Dharani)
+914,"1016,1014,1009,1011,1017,1013,1018,1012,1015",removing (Dharani)
+915,"1137,1138,1139,1140",removing (Dharani)
+916,1360,removing (Dharani)
+917,1047,removing (Dharani)
+923,943,removing (Dharani)
+925,1373,removing (Dharani)
+930,"1034,1036,901(5),1035",removing (Dharani)
+941,1021,removing (Dharani)
+946,1415,removing (Dharani)
+947,1243,removing (Dharani)
+948,"1416,1417",removing (Dharani)
+949,"1416,1417",removing (Dharani)
+955,1416,removing (Dharani)
+958,1392,removing (Dharani)
+970,1285,removing (Dharani)
+971,1285,removing (Dharani)
+974,"1362,26(165) cf.",removing (Dharani)
+982,1024,removing (Dharani)
+983,1025,removing (Dharani)
+984,"974,967,974a",removing (Dharani)
+985,"977,976",removing (Dharani)
+986,"977,976",removing (Dharani)
+988,"1257,1255,1254,1256",removing (Dharani)
+989,"1075,1076,1077",removing (Dharani)
+990,1264,removing (Dharani)
+991,1404,removing (Dharani)
+994,1100,removing (Dharani)
+995,1384,removing (Dharani)
+997,"1302,1303",removing (Dharani)
+998,"1302,1303",removing (Dharani)
+1000,"1107,cf:1105,1106,1105 cf.",removing (Dharani)
+1005,1252,removing (Dharani)
+1006,1252,removing (Dharani)
+1007,"1162,1163,1164",removing (Dharani)
+1008,1324,removing (Dharani)
+1014,1323,removing (Dharani)
+1020,1325,removing (Dharani)
+1042,1036,Only in Adarsha
+1043,901,Only in Adarsha
+1059,999cf.,removing (Dharani)
+1061,"1244,1245",removing (Dharani)
+1063,"992,989,991,993",removing (Dharani)
+1078,1386,removing (Dharani)
+1079,"1313,1314",removing (Dharani)
+1080,"1313,1314",removing (Dharani)
+1095,"278(31),279(36),296,297",removing (Dharani)
+1096,1144,removing (Dharani)
+1118,1675,
+1123,1678,
+1133,1685,
+1147,1680,
+1149,1683,
+1168,1684,
+3721,1687,
+3809,1518,
+3810,1517,
+3812,1516,"? what is 1516, it probably doesn't really correspond to the two texts... what is a commentary on what?"
+3813,1516,"? what is 1516, it probably doesn't really correspond to the two texts... what is a commentary on what?"
+3816,1510,
+3824,1564,
+3825,1575,
+3828,1631,
+3832,1631,"? what is 1631, it probably doesn't really correspond to the two texts... what is a commentary on what?"
+3833,1576,
+3834,1572,
+3835,1572,"? what is 1572, it probably doesn't really correspond to the two texts... what is a commentary on what?"
+3836,"1651,1653,cf:1652,1654a",these Taisho indexes are in different groups...?
+3837,1654b,
+3840,1574,
+3844,"1620,1621","probable translation of the same text, to be studied"
+3845,"1620,1621","odd, are 3844 and 3845 different translations of the same text?"
+3846,1570,
+3848,"1620,1621",same oddity?
+3849,"1620,1621",same oddity?
+3853,1566,
+3871,1662,
+3905,1637,
+3913,1663,
+3915,1664,
+3932,"411,410","odd, same correspondence as D239..."
+3934,1635,
+3939,1636,"odd, 1636 shouldn't appear multiple times"
+3940,1636,"odd, 1636 shouldn't appear multiple times"
+3941,1636,"odd, 1636 shouldn't appear multiple times"
+3958,727,"odd, 727 shouldn't appear multiple times"
+3966,727,"odd, 727 shouldn't appear multiple times, maybe this one is a mistake (in TT)?"
+3991,1531,
+3993,1522,
+4009,1523,
+4017,1723,
+4020,1604,
+4021,"1599,1601","group in the Hobogirin is 1599,1600,1601"
+4024,1611,
+4025,1611,"odd, 1611 shouldn't appear multiple times"
+4026,1604,
+4027,"1599,1600",
+4035,,"originally 1579(1-20), no import because no outline"
+4036,,"originally 1579(21-34), no import because no outline"
+4037,"1582,1581",1579(35-50)
+4038,,1579(51-80)
+4039,,1579(85-98)
+4040,,1579(99-100)
+4041,,1579(83-84)
+4042,,1579(81-82)
+4048,"1592,1593,1594",
+4049,1605,
+4050,"1595,1596,1597",
+4051,1598,
+4053,1606,
+4054,1606,"odd, 1606 shouldn't appear multiple times"
+4055,"1586,1587","in Hobogirin, 1585 is also part of this group, quid ?"
+4056,"1588,1589,1590","in Hobogirin, 1591 is also part of this group, quid ?"
+4057,"1588,1589,1590",
+4059,1612,
+4062,"1608,1609",
+4063,1614,
+4066,1613,
+4085,,"originally 1579, only in the Koreana sheet, indicated as K570, probably just one specific chapter of 1579, removing"
+4087,1538,
+4089,1560,
+4090,"1558,1559",
+4091,1563,
+4098,1554,
+4099,"210,211,212,213",
+4105,1458,
+4123,1459,
+4138,"2031,2032,2033",are these 3 the same text ? different translations ? isn't it a Chinese commentary?
+4144,550,
+4145,2043,
+4146,2030,
+4150,160,
+4156,192,
+4158,1656,
+4162,1574,
+4178,727,is this the same text as 3958 but in a different translation?
+4179,"726,723,725","odd, these are not grouped in the HoboGirin..."
+4182,"1672,1673,1674",
+4205,"1619,1624",odd
+4206,"1619,1624",odd
+4208,1630,
+4315,,"indication ""1419?"" in TT, removing"
+4316,1419,
+4377,"296,297",same as 44-45e so same parallels
+4378,1144,
+4379,"663,665,664",entangled... see 555
+4383,,"originally 1662, looks wrong"
+4388,1656,"same as D4158, same parallels"
+4394,893,
+4404,"279,278",
+4405,"187,186",odd? indicated in the Tohoku...
+4407,999,removing (Dharani)
+4408,999,removing (Dharani)
+4409,985,removing (Dharani)
+4462,1516,"same as D3812, same parallels"
