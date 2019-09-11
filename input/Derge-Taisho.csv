@@ -84,7 +84,7 @@ Derge,Taisho,Note
 87,"310(43),350,352,351",
 88,310(44),
 89,310(45),
-90,"232,233,310(46),220(7)",
+90,"232,233,310(46),220(7)","different translation of D24, same parallels"
 91,310(47),
 92,"353,310(48)",
 93,"354,310(49)",
@@ -206,19 +206,19 @@ Derge,Taisho,Note
 258,"666,667",
 259,"829,830,828",
 260,"407,405,408,406",
-261,"310(38),346,345",
+261,"310(38),346,345",is it another translation of D92? TODO: ask JS
 262,443,
 266,434,
 269,435,
 270,"1333,1334,1147",
 271,"427,428,429,430,431",
-272,310(34),
+272,310(34),is it another translation of D78? TODO: ask JS
 273,"1348,1349",
 274,438,
 275,680,
 276,,"TT has 811,831 but these two don't seem related... ?"
 277,"430,431",suspicous... same as 271 ?
-278,429,
+278,429,"suspicious: why not also T427, etc. what's the relation with D271?"
 287,728,also 721(1-18) but will be automatic once we have outlines
 289,41,also 26(62)
 290,,26(190) but we have no outline
@@ -281,7 +281,7 @@ Derge,Taisho,Note
 507,"1023,1022a",Dharani
 508,1008,
 510,1024,
-511,"1348,1349",
+511,"1348,1349",same as D283
 512,"1147,1333,1334",same as D270 so same parallels
 513,,"1346,1347, not recording because Dharani cases are unclear"
 514,"918,919",
@@ -289,8 +289,8 @@ Derge,Taisho,Note
 518,1387,
 522,"1397,1398",
 525,"1016,1014,1009,1011,1017,1013,1018,1012,1015",Dharani
-526,1360,
-527,1374,
+526,1360,same as D141
+527,1374,same as D114
 528,,"originally 1353,1352,1355,1029,1354,1351 but ignoring"
 529,1371,
 530,258,
@@ -399,7 +399,7 @@ Derge,Taisho,Note
 850,370,removing (Dharani)
 851,"369,934,1316,1317",removing (Dharani)
 852,"1147,1333,1334",same as D270 so same parallels
-853,"1348,1349",removing (Dharani)
+853,"1348,1349",same as D283
 854,"918,919",removing (Dharani)
 856,"1346,1347",removing (Dharani)
 857,1387,removing (Dharani)
@@ -428,7 +428,7 @@ Derge,Taisho,Note
 909,1117,removing (Dharani)
 914,"1016,1014,1009,1011,1017,1013,1018,1012,1015",removing (Dharani)
 915,"1137,1138,1139,1140",removing (Dharani)
-916,1360,removing (Dharani)
+916,1360,same as D141
 917,1047,removing (Dharani)
 923,943,removing (Dharani)
 925,1373,removing (Dharani)
@@ -485,7 +485,7 @@ Derge,Taisho,Note
 3812,1516,"? what is 1516, it probably doesn't really correspond to the two texts... what is a commentary on what?"
 3813,1516,"? what is 1516, it probably doesn't really correspond to the two texts... what is a commentary on what?"
 3816,1510,
-3824,1564,
+3824,1564,T1564 is a commentary on D3824 (which are just the karika)
 3825,1575,
 3828,1631,
 3832,1631,"? what is 1631, it probably doesn't really correspond to the two texts... what is a commentary on what?"
