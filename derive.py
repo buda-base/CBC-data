@@ -74,18 +74,31 @@ def normalize_D_id(id):
 #print(normalize_taisho_id("T123a"))
 
 T_TO_GROUP = {}
+GROUP_TO_T = {}
+D_TO_RKTS = {}
 D_TO_T = {}
 T_TO_D = {}
-D_TO_RKTS = {}
 RKTS_SAMEABSTRACT = {}
-D_TO_ABSTRACT = {}
+RKTS_TO_ABSTRACT = {}
 T_TO_ABSTRACT = {}
 
 with open('input/rkts-sameabstract.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
     for row in tkreader:
-        RKTS_SAMEABSTRACT[row[0]] = row[1]
         RKTS_SAMEABSTRACT[row[1]] = row[0]
+
+with open('input/abstract-rkts.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        if len(row) > 1 and row[1] and '?' not in row[1]:
+            RKTS_TO_ABSTRACT[row[0]] = row[1]
+
+def rktsid_to_abstract(rkts):
+    if rkts in RKTS_SAMEABSTRACT:
+        rkts = RKTS_SAMEABSTRACT[rkts]
+    if rkts in RKTS_TO_ABSTRACT:
+        return RKTS_TO_ABSTRACT[rkts]
+    return "W0R%sA%s" % (rkts[0],rkts[1:])
 
 with open('input/Taisho-groups.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -95,6 +108,8 @@ with open('input/Taisho-groups.csv', newline='') as csvfile:
             continue
         idxlist = row[0].split(',')
         groupname = taisho_to_group_id(idxlist[0])
+        tlist = []
+        GROUP_TO_T[groupname] = tlist
         for id in idxlist:
             if '?' in id or not id:
                 continue
@@ -102,6 +117,8 @@ with open('input/Taisho-groups.csv', newline='') as csvfile:
             if idnorm in T_TO_GROUP:
                 print("error: %s is in multiple groups" % idnorm)
             T_TO_GROUP[idnorm] = groupname
+            tlist.append(idnorm)
+
 
 with open('input/Derge-Taisho.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -112,6 +129,7 @@ with open('input/Derge-Taisho.csv', newline='') as csvfile:
         D = normalize_D_id(row[0])
         tlist = row[1].split(',')
         tlistnorm = []
+        group = None
         for t in tlist:
             if not t:
                 continue
@@ -120,4 +138,30 @@ with open('input/Derge-Taisho.csv', newline='') as csvfile:
             if tnorm in T_TO_D:
                 print("warning: %s appears several times in T_TO_D" % tnorm)
             T_TO_D[tnorm] = D
+            if tnorm in T_TO_GROUP:
+                if group is not None and T_TO_GROUP[tnorm] != group:
+                    print("warning: %s appears in incoherent groups (different groups for the same D)" % tnorm)
+                group = T_TO_GROUP[tnorm]
+            elif group is not None:
+                print("warning: %s appears in incoherent groups (some T not in the main group)" % tnorm)
+        if group and set(GROUP_TO_T[group]) != set(tlistnorm):
+            print("warning: %s appears in incoherent groups (missing Ts)" % tnorm)
         D_TO_T[D] = tlistnorm
+
+with open('input/derge-rkts.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        D = normalize_D_id(row[1])
+        rkts = row[0]
+        D_TO_RKTS[D] = rkts
+
+with open('input/derge-rkts.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        D = normalize_D_id(row[1])
+        abstract = rktsid_to_abstract(row[0])
+        if D not in D_TO_T:
+            continue
+        for T in D_TO_T[D]:
+            T_TO_ABSTRACT[T] = abstract
+        
