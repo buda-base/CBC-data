@@ -115,8 +115,8 @@ Derge,Taisho,Note
 119,"374,375,376",add 377?
 120,"376,375(1-18),374(1-6)"," this is quite complex, see Taisho-group spreadsheet ?"
 121,390,
-123,653,
-127,639,640 and 641 are partial translations
+123,653,"odd, is D220 another translation of D123?"
+127,639,
 129,648,
 130,"371,372",
 131,"632,633,634",
@@ -134,7 +134,7 @@ Derge,Taisho,Note
 146,"271,272",
 147,"397(1),397(2),398",
 148,"404,397(8)",
-149,"349,310(42)",different translation of the same indic text as D86 ?
+149,"349,310(42)",different translation of the same indic text as D86 ? TODO: ask JS
 151,544,
 152,"400,397(5)",
 153,598,
@@ -152,11 +152,11 @@ Derge,Taisho,Note
 170,"567,568",
 171,"561,560,559",
 172,"661,473,662",
-173,846,1643 was also indicated but I think it's a commentary?
+173,846,
 174,"481,482",
 175,"397(12),403",
 176,"474,475,476",
-177,774,
+177,774,"odd... not the same title, is it a different translation of D252?"
 178,472,
 179,"460,1489,1490",
 180,"652,651,650",
@@ -206,7 +206,7 @@ Derge,Taisho,Note
 258,"666,667",
 259,"829,830,828",
 260,"407,405,408,406",
-261,"310(38),346,345",is it another translation of D92? TODO: ask JS
+261,"310(38),346,345",is it another translation of D82? TODO: ask JS
 262,443,
 266,434,
 269,435,
@@ -293,15 +293,15 @@ Derge,Taisho,Note
 527,1374,same as D114
 528,,"originally 1353,1352,1355,1029,1354,1351 but ignoring"
 529,1371,
-530,258,
-531,"250,251,252,253,254,255,256,257",
+530,258,same as D22
+531,"250,251,252,253,254,255,256,257",same as D21
 539,1411,
 540,1386,
 542,"1408,1409",
 543,"1191,1215,1216",does not correspond to a group in the Taisho! remove?
 552,1190,
-553,230,
-554,249,
+553,230,same as D25
+554,249,same as D19
 555,"663,665,664",these 3 are entangled... not sure how to deal with that
 556,"663,665,664",same
 557,"663,999,665,664",same... is 557 similar to 556 ?
@@ -520,7 +520,7 @@ Derge,Taisho,Note
 4021,"1599,1601","group in the Hobogirin is 1599,1600,1601"
 4024,1611,
 4025,1611,"odd, 1611 shouldn't appear multiple times"
-4026,1604,
+4026,,indicated as 1604 but commentary on D4020
 4027,"1599,1600",
 4035,,"originally 1579(1-20), no import because no outline"
 4036,,"originally 1579(21-34), no import because no outline"
@@ -549,7 +549,7 @@ Derge,Taisho,Note
 4090,"1558,1559",
 4091,1563,
 4098,1554,
-4099,"210,211,212,213",
+4099,"210,211,212,213",same as 326 (it seems)
 4105,1458,
 4123,1459,
 4138,"2031,2032,2033",are these 3 the same text ? different translations ? isn't it a Chinese commentary?
@@ -559,7 +559,7 @@ Derge,Taisho,Note
 4150,160,
 4156,192,
 4158,1656,
-4162,1574,
+4162,1574,"same text, different translation as 3840"
 4178,727,is this the same text as 3958 but in a different translation?
 4179,"726,723,725","odd, these are not grouped in the HoboGirin..."
 4182,"1672,1673,1674",
@@ -574,7 +574,7 @@ Derge,Taisho,Note
 4383,,"originally 1662, looks wrong"
 4388,1656,"same as D4158, same parallels"
 4394,893,
-4404,"279,278",
+4404,,"referring to a part of 279,278 but shouldn't be indicated as a direct parallel"
 4405,"187,186",odd? indicated in the Tohoku...
 4407,999,removing (Dharani)
 4408,999,removing (Dharani)
