@@ -81,6 +81,8 @@ T_TO_D = {}
 RKTS_SAMEABSTRACT = {}
 RKTS_TO_ABSTRACT = {}
 T_TO_ABSTRACT = {}
+T_TO_CHTITLE = {}
+GROUP_TO_ABSTRACT = {}
 
 with open('input/rkts-sameabstract.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -91,9 +93,10 @@ with open('input/abstract-rkts.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
     for row in tkreader:
         if len(row) > 1 and row[1] and '?' not in row[1]:
-            RKTS_TO_ABSTRACT[row[0]] = row[1]
+            RKTS_TO_ABSTRACT[row[1]] = row[0]
 
 def rktsid_to_abstract(rkts):
+    global RKTS_SAMEABSTRACT, RKTS_TO_ABSTRACT
     if rkts in RKTS_SAMEABSTRACT:
         rkts = RKTS_SAMEABSTRACT[rkts]
     if rkts in RKTS_TO_ABSTRACT:
@@ -164,4 +167,30 @@ with open('input/derge-rkts.csv', newline='') as csvfile:
             continue
         for T in D_TO_T[D]:
             T_TO_ABSTRACT[T] = abstract
-        
+
+# we consider that this contains all the identifiers
+with open('input/index-chtitles.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        T = normalize_taisho_id(row[0])
+        T_TO_CHTITLE[T]=row[1]
+
+def group_to_abstract(group):
+    return "W0TGA%s" % group
+
+def tid_to_abstract(tid):
+    return "W0TA%s" % tid
+
+def tid_to_expr(tid):
+    return "W0TET%s" % tid
+
+for T in T_TO_CHTITLE:
+    if T in T_TO_ABSTRACT:
+        continue
+    elif T in T_TO_GROUP:
+        T_TO_ABSTRACT[T] = group_to_abstract(T_TO_GROUP[T])
+    else:
+        T_TO_ABSTRACT[T] = tid_to_abstract(T)
+
+with open('derived/t_to_abstract.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
