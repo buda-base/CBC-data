@@ -181,9 +181,6 @@ def group_to_abstract(group):
 def tid_to_abstract(tid):
     return "W0TA%s" % tid
 
-def tid_to_expr(tid):
-    return "W0TET%s" % tid
-
 for T in T_TO_CHTITLE:
     if T in T_TO_ABSTRACT:
         continue
@@ -194,3 +191,33 @@ for T in T_TO_CHTITLE:
 
 with open('derived/t_to_abstract.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
+
+def taisho_id_to_int(id):
+    id = normalize_taisho_id(id)
+    id = id[1:]
+    dashidx = id.find('-')
+    if dashidx != -1:
+        id = id[:dashidx]
+    if id[-1].isalpha():
+        id = id[:-1]
+    return int(id)
+
+T_TO_VOL = {}
+with open('input/volume-firstindex.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    lastid = 0
+    firsttovols = []
+    for row in tkreader:
+        firsttovols.append((int(row[1]),int(row[0])))
+    for T in T_TO_CHTITLE:
+        Tint = taisho_id_to_int(T)
+        previousvol = 1
+        for firsttovol in firsttovols:
+            if firsttovol[0] > Tint:
+                T_TO_VOL[T] = previousvol
+                break
+            previousvol = firsttovol[1]
+        T_TO_VOL[T] = previousvol
+
+with open('derived/t_to_vol.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_VOL, f, ensure_ascii=False, indent=4)
