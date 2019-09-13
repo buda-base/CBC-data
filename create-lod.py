@@ -204,12 +204,12 @@ for T in ALL_T:
         LOD_G.add((expr, BDO.langScript, BDR.ZhHant))
         LOD_G.add((abst, BDO.workHasExpression, res))
     if T in T_TO_CBCA:
-        LOD_G.add((expr, BDO.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
+        LOD_G.add((expr, ADM.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
     TforSAT = T
     if T[-1].isalpha():
         TforSAT = T[:-1]
     if not hastextparent:
-        LOD_G.add((expr, BDO.sameAsCBCAt, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
+        LOD_G.add((expr, ADM.seeOtherSAT, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
     if T in T_TO_CN:
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-Hant")))
         LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-Hant")))
@@ -225,7 +225,7 @@ for T in ALL_T:
     LOD_G.add((item, RDF.type, BDO.ItemImageAsset))
     LOD_G.add((item, BDO.itemForWork, res))
     LOD_G.add((res, BDO.workHasItem, item))
-    itemA = BDR[tid_to_item_sat(T)]
+    itemA = BDA[tid_to_item_sat(T)]
     LOD_G.add((itemA, RDF.type, ADM.AdminData))
     LOD_G.add((itemA, BDO.isRoot, Literal(True)))
     LOD_G.add((itemA, ADM.access, BDA.AccessOpen))
@@ -238,6 +238,7 @@ for T in ALL_T:
     LOD_G.add((item, BDO.itemHasVolume, vol))
     LOD_G.add((vol, BDO.volumeForItem, item))
     LOD_G.add((vol, BDO.volumeForItem, item))
+    LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
     manifest = tid_to_manifest_sat(TforSAT, volnum)
     LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
 
