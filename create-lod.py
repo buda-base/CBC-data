@@ -232,6 +232,7 @@ for T in ALL_T:
     LOD_G.add((itemA, ADM.adminAbout, item))
     LOD_G.add((itemA, ADM.restrictedInChina, Literal(False)))
     LOD_G.add((itemA, ADM.status, BDA.StatusReleased))
+    LOD_G.add((itemA, ADM.contentLegal, BDA.LD_SAT_images))
     vol = BDR[tid_to_volume_sat(T, volnum)]
     LOD_G.add((vol, RDF.type, BDO.VolumeImageAsset))
     LOD_G.add((vol, RDF.type, BDO.Volume))
