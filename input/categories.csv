@@ -1,0 +1,25 @@
+level,rid,name_en,name_sa,name_zh,first
+1,W0TS001,Āgama,Āgama,阿含部類,1
+1,W0TS002,Jātaka and Avadāna,Avadāna,本緣部,152
+1,W0TS003,Prajnaparamita,Prajñapāramitā,般若部類,220
+1,W0TS004,Saddharmapundarikas,Saddhammapundarikā,法華部類,262
+1,W0TS005,Avatamsakasutra,Avataṁsaka,華嚴部類,278
+1,W0TS006,Ratnakuta,Ratnakūṭa,寶積部類,310
+1,W0TS007,Mahaparinirvanasutra,Nirvāṇa,涅槃部類,374
+1,W0TS008,The Great Compilation,Mahāsannipāta,大集部類,397
+1,W0TS009,Miscellaneous Sūtras,Sūtrasannipāta,經集部類,425
+1,W0TS010,Esoteric Scriptures,Tantra,密教部類,848
+1,W0TS011,Vinaya,Vinaya,律部類,1421
+1,W0TS012,Indian Commentaries on Sutras,Sūtravyākaraṇa,釋經論部,1505
+1,W0TS013,Abhidharma,Abhidharma,毘曇部類,1536
+1,W0TS014,Madhyamika,Madhyamaka,中觀部類,1564
+1,W0TS015,Yogacara,Yoga,瑜伽部類,1579
+1,W0TS016,Treatises,Śāstra,論集部類,1628
+1,W0TS017,Chinese commentaries on sutras,Sūtravibhāṣa,經疏部,1693
+1,W0TS018,Chinese commentaries on Vinaya,Vinayavibhāṣa,律疏部,1804
+1,W0TS019,Chinese commentaries on Shastras,Śāstravibhāṣa,論疏部,1816
+1,W0TS020,Chinese sectarian writings,諸宗部,Sarvasamaya,1851
+1,W0TS021,History and Biographies,,史傳部類,2026
+1,W0TS022,Encyclopedias and References,,事彙部類,2121
+1,W0TS023,Non-Buddhist Doctrines,,外敎部,2137
+1,W0TS024,Scriptural Catalogues,,目錄部,2145
