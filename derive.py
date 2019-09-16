@@ -221,3 +221,23 @@ with open('input/volume-firstindex.csv', newline='') as csvfile:
 
 with open('derived/t_to_vol.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_VOL, f, ensure_ascii=False, indent=4)
+
+MBBT_TO_ABSTRACT = {}
+ABSTRACT_TO_MBBT = {}
+
+with open('input/Mbbt-Taisho.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        T = normalize_taisho_id(row[1])
+        if T not in T_TO_ABSTRACT:
+            #print(T+" not in :")
+            #print(T_TO_ABSTRACT)
+            continue
+        MBBT_TO_ABSTRACT[row[0]]=T_TO_ABSTRACT[T]
+        ABSTRACT_TO_MBBT[T_TO_ABSTRACT[T]]=row[0]
+
+with open('derived/mbbt-to-abstract.json', 'w', encoding='utf-8') as f:
+    json.dump(MBBT_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
+
+with open('derived/abstract-to-mbbt.json', 'w', encoding='utf-8') as f:
+    json.dump(ABSTRACT_TO_MBBT, f, ensure_ascii=False, indent=4)
