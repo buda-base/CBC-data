@@ -230,7 +230,7 @@ with open('input/Mbbt-Taisho.csv', newline='') as csvfile:
     for row in tkreader:
         T = normalize_taisho_id(row[1])
         if T not in T_TO_ABSTRACT:
-            #print(T+" not in :")
+            print("warning: "+T+" in mbbt but not in abstract")
             #print(T_TO_ABSTRACT)
             continue
         MBBT_TO_ABSTRACT[row[0]]=T_TO_ABSTRACT[T]
