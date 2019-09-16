@@ -9,6 +9,7 @@ BDO = Namespace("http://purl.bdrc.io/ontology/core/")
 BDG = Namespace("http://purl.bdrc.io/graph/")
 BDA = Namespace("http://purl.bdrc.io/admindata/")
 ADM = Namespace("http://purl.bdrc.io/ontology/admin/")
+MBBT = Namespace("http://mbingenheimer.net/tools/bibls/")
 CBCT_URI = "https://dazangthings.nz/cbc/text/"
 CBCT = Namespace(CBCT_URI)
 
@@ -21,6 +22,7 @@ NSM.bind("adm", ADM)
 NSM.bind("skos", SKOS)
 NSM.bind("rdf", RDF)
 NSM.bind("cbct", CBCT)
+NSM.bind("mbbt", MBBT)
 
 GRAPHNAME = "http://purl.bdrc.io/graph/CBC-data"
 
@@ -34,6 +36,7 @@ T_TO_CN = {}
 T_TO_VOLNUM = {}
 ALL_T = []
 T_TO_CBCA = {}
+ABSTRACT_TO_MBBT = {}
 
 def normalize_taisho_id(id):
     id = id.strip()
@@ -61,6 +64,9 @@ with open('derived/t_to_skt.json', encoding='utf-8') as f:
 
 with open('derived/t_to_vol.json', encoding='utf-8') as f:
     T_TO_VOLNUM = json.load(f)
+
+with open('derived/abstract-to-mbbt.json', encoding='utf-8') as f:
+    ABSTRACT_TO_MBBT = json.load(f)
 
 with open('input/index-chtitles.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -186,9 +192,12 @@ for T in ALL_T:
     LOD_G.add((res, BDO.workCBCSiglaT, Literal(T)))
     hasIndic = (taisho_id_to_int(T) < 1693)
     expr = BDR[tid_to_expr(T)]
-    abst = BDR[T_TO_ABSTRACT[T]]
+    abstln = T_TO_ABSTRACT[T]
+    abst = BDR[abstln]
     LOD_G.add((abst, RDF.type, BDO.AbstractWork))
     LOD_G.add((abst, RDF.type, BDO.Work))
+    if abstln in ABSTRACT_TO_MBBT:
+        LOD_G.add((abst, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[abstln]]))
     if hasIndic:
         LOD_G.add((res, BDO.workExpressionOf, expr))
         LOD_G.add((expr, BDO.workHasExpression, res))
