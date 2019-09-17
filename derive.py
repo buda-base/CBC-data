@@ -64,7 +64,7 @@ def taisho_to_group_id(id):
     return "TG"+id[1:]
 
 def normalize_D_id(id):
-    id = id.strip(" 0D").upper()
+    id = id.lstrip(" 0D").strip().upper()
     return "D"+id
 
 #print(normalize_taisho_id("123"))

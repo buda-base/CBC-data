@@ -2,7 +2,7 @@ import csv
 import json
 import rdflib
 from rdflib import URIRef, Literal, BNode
-from rdflib.namespace import RDF, SKOS, Namespace, NamespaceManager, XSD
+from rdflib.namespace import RDF, SKOS, OWL, Namespace, NamespaceManager, XSD
 
 BDR = Namespace("http://purl.bdrc.io/resource/")
 BDO = Namespace("http://purl.bdrc.io/ontology/core/")
@@ -143,7 +143,7 @@ for cat in CATS:
     if row[3]:
         LOD_G.add((res, SKOS.prefLabel, Literal(cat[3], lang="sa-x-iast")))
     if row[4]:
-        LOD_G.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-Hant")))
+        LOD_G.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-hant")))
     pi += 1
 
 
@@ -198,6 +198,7 @@ for T in ALL_T:
     LOD_G.add((abst, RDF.type, BDO.Work))
     if abstln in ABSTRACT_TO_MBBT:
         LOD_G.add((abst, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[abstln]]))
+        LOD_G.add((abst, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[abstln]]))
     if hasIndic:
         LOD_G.add((res, BDO.workExpressionOf, expr))
         LOD_G.add((expr, BDO.workHasExpression, res))
@@ -214,15 +215,16 @@ for T in ALL_T:
         LOD_G.add((abst, BDO.workHasExpression, res))
     if T in T_TO_CBCA:
         LOD_G.add((expr, ADM.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
+        LOD_G.add((expr, OWL.sameAs, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
     TforSAT = T
     if T[-1].isalpha():
         TforSAT = T[:-1]
     if not hastextparent:
         LOD_G.add((expr, ADM.seeOtherSAT, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
     if T in T_TO_CN:
-        LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-Hant")))
-        LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-Hant")))
-        LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-Hant")))
+        LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
+        LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
+        LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
     if T in T_TO_SKT:
         LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="sa-x-iast")))
     if hastextparent:
