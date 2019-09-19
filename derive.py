@@ -202,7 +202,7 @@ T_TO_EXPR = {}
 T_TO_TAISHOPART = {}
 for T in T_TO_CHTITLE:
     T_TO_EXPR[T] = tid_to_expr(T)
-    T_TO_TAISHOPART = tid_to_taishopart(T)
+    T_TO_TAISHOPART[T] = tid_to_taishopart(T)
 
 with open('derived/t_to_expr.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_EXPR, f, ensure_ascii=False, indent=4)
