@@ -181,6 +181,12 @@ def group_to_abstract(group):
 def tid_to_abstract(tid):
     return "W0TA%s" % tid
 
+def tid_to_taishopart(tid):
+    return "W0TT%s" % tid
+
+def tid_to_expr(tid):
+    return "W0TE%s" % tid
+
 for T in T_TO_CHTITLE:
     if T in T_TO_ABSTRACT:
         continue
@@ -191,6 +197,18 @@ for T in T_TO_CHTITLE:
 
 with open('derived/t_to_abstract.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
+
+T_TO_EXPR = {}
+T_TO_TAISHOPART = {}
+for T in T_TO_CHTITLE:
+    T_TO_EXPR[T] = tid_to_expr(T)
+    T_TO_TAISHOPART = tid_to_taishopart(T)
+
+with open('derived/t_to_expr.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_EXPR, f, ensure_ascii=False, indent=4)
+
+with open('derived/t_to_taishopart.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_TAISHOPART, f, ensure_ascii=False, indent=4)
 
 def taisho_id_to_int(id):
     id = normalize_taisho_id(id)

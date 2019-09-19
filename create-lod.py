@@ -156,16 +156,16 @@ def hasParent(id):
     return None
 
 def tid_to_taishopart(tid):
-    return "W0TTT%s" % tid
+    return "W0TT%s" % tid
 
 def tid_to_expr(tid):
-    return "W0TET%s" % tid
+    return "W0TE%s" % tid
 
 def tid_to_item_sat(tid):
-    return "I0SATT%s" % tid
+    return "I0SAT%s" % tid
 
 def tid_to_volume_sat(tid, volnum):
-    return "V0SATT%s_%d" % (tid,volnum)
+    return "V0SAT%s_%d" % (tid,volnum)
 
 def tid_to_manifest_sat(tid, volnum):
     tidstr = "%04d" % taisho_id_to_int(tid)
