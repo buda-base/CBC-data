@@ -203,7 +203,7 @@ for T in ALL_T:
     if hasIndic:
         LOD_G.add((res, BDO.workExpressionOf, expr))
         LOD_G.add((expr, BDO.workHasExpression, res))
-        LOD_G.add((expr, BDO.langScript, BDR.ZhHant))
+        LOD_G.add((expr, BDO.workLangScript, BDR.ZhHant))
         LOD_G.add((expr, RDF.type, BDO.AbstractWork))
         LOD_G.add((expr, RDF.type, BDO.Work))
         LOD_G.add((expr, BDO.workDerivativeOf, abst))
@@ -212,7 +212,7 @@ for T in ALL_T:
     else:
         expr = abst
         LOD_G.add((res, BDO.workExpressionOf, abst))
-        LOD_G.add((expr, BDO.langScript, BDR.ZhHant))
+        LOD_G.add((expr, BDO.workLangScript, BDR.ZhHant))
         LOD_G.add((abst, BDO.workHasExpression, res))
     if T in T_TO_CBCA:
         LOD_G.add((expr, ADM.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
