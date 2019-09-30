@@ -206,8 +206,9 @@ for T in ALL_T:
         LOD_G.add((expr, BDO.workLangScript, BDR.ZhHant))
         LOD_G.add((expr, RDF.type, BDO.AbstractWork))
         LOD_G.add((expr, RDF.type, BDO.Work))
-        LOD_G.add((expr, BDO.workDerivativeOf, abst))
-        LOD_G.add((abst, BDO.workHasDerivative, expr))
+        LOD_G.add((expr, BDO.workTranslationOf, abst))
+        LOD_G.add((abst, BDO.workHasTranslation, expr))
+        LOD_G.add((abst, BDO.workLangScript, BDR.Inc))
         LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
     else:
         expr = abst
