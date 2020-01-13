@@ -118,8 +118,10 @@ ROOT_RIDS = [MAIN_TAISHO_RID]
 # Generate some data
 #
 
+## TODO: abstract work for the Chinese Canon
+
 ## main entry for the Taisho:
-LOD_G.add((BDR[MAIN_TAISHO_RID], RDF.type, BDO.Work))
+LOD_G.add((BDR[MAIN_TAISHO_RID], RDF.type, BDO.Instance))
 LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("Taisho Revised Tripitaka", lang="en")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("大正新脩大藏經", lang="zh-Hant")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.isRoot, Literal(True)))
@@ -175,6 +177,15 @@ def tid_to_manifest_sat(tid, volnum):
 
 parentsLastPart = {}
 seenAbstracts = []
+
+itemA = BDA["I0SAT00"]
+LOD_G.add((itemA, RDF.type, ADM.AdminData))
+LOD_G.add((itemA, BDO.isRoot, Literal(True)))
+LOD_G.add((itemA, ADM.access, BDA.AccessOpen))
+LOD_G.add((itemA, ADM.restrictedInChina, Literal(False)))
+LOD_G.add((itemA, ADM.status, BDA.StatusReleased))
+LOD_G.add((itemA, ADM.contentLegal, BDA.LD_SAT_images))
+
 for T in ALL_T:
     hastextparent = True
     parent = hasParent(T)
@@ -187,7 +198,7 @@ for T in ALL_T:
         parentsLastPart[parent] += 1
     res = BDR[tid_to_taishopart(T)]
     LOD_G.add((BDR[parent], BDO.workHasPart, res))
-    LOD_G.add((res, RDF.type, BDO.Work))
+    LOD_G.add((res, RDF.type, BDO.Instance))
     LOD_G.add((res, BDO.workPartOf, BDR[parent]))
     LOD_G.add((res, BDO.workPartIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
     LOD_G.add((res, BDO.workCBCSiglaT, Literal(T)))
@@ -195,26 +206,24 @@ for T in ALL_T:
     expr = BDR[tid_to_expr(T)]
     abstln = T_TO_ABSTRACT[T]
     abst = BDR[abstln]
-    LOD_G.add((abst, RDF.type, BDO.AbstractWork))
     LOD_G.add((abst, RDF.type, BDO.Work))
     if abstln in ABSTRACT_TO_MBBT:
         LOD_G.add((abst, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[abstln]]))
         LOD_G.add((abst, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[abstln]]))
     if hasIndic:
-        LOD_G.add((res, BDO.workExpressionOf, expr))
-        LOD_G.add((expr, BDO.workHasExpression, res))
-        LOD_G.add((expr, BDO.workLangScript, BDR.ZhHant))
-        LOD_G.add((expr, RDF.type, BDO.AbstractWork))
+        LOD_G.add((res, BDO.instanceOf, expr))
+        LOD_G.add((expr, BDO.workHasInstance, res))
+        LOD_G.add((expr, BDO.language, BDR.LangZh))
         LOD_G.add((expr, RDF.type, BDO.Work))
         LOD_G.add((expr, BDO.workTranslationOf, abst))
         LOD_G.add((abst, BDO.workHasTranslation, expr))
-        LOD_G.add((abst, BDO.workLangScript, BDR.Inc))
+        LOD_G.add((abst, BDO.language, BDR.LangInc))
         LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
     else:
         expr = abst
-        LOD_G.add((res, BDO.workExpressionOf, abst))
-        LOD_G.add((expr, BDO.workLangScript, BDR.ZhHant))
-        LOD_G.add((abst, BDO.workHasExpression, res))
+        LOD_G.add((res, BDO.workInstanceOf, abst))
+        LOD_G.add((expr, BDO.language, BDR.LangZh))
+        LOD_G.add((abst, BDO.workHasInstance, res))
     if T in T_TO_CBCA:
         LOD_G.add((expr, ADM.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
         LOD_G.add((expr, OWL.sameAs, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
@@ -234,24 +243,16 @@ for T in ALL_T:
         continue
     volnum = T_TO_VOLNUM[T]
     item = BDR[tid_to_item_sat(T)]
-    LOD_G.add((item, RDF.type, BDO.Item))
-    LOD_G.add((item, RDF.type, BDO.ItemImageAsset))
-    LOD_G.add((item, BDO.itemForWork, res))
-    LOD_G.add((res, BDO.workHasItem, item))
-    itemA = BDA[tid_to_item_sat(T)]
-    LOD_G.add((itemA, RDF.type, ADM.AdminData))
-    LOD_G.add((itemA, BDO.isRoot, Literal(True)))
-    LOD_G.add((itemA, ADM.access, BDA.AccessOpen))
+    LOD_G.add((item, RDF.type, BDO.ImageInstance))
+    LOD_G.add((item, BDO.instanceOf, abst))
+    LOD_G.add((item, BDO.instanceReproductionOf, res))
     LOD_G.add((itemA, ADM.adminAbout, item))
-    LOD_G.add((itemA, ADM.restrictedInChina, Literal(False)))
-    LOD_G.add((itemA, ADM.status, BDA.StatusReleased))
-    LOD_G.add((itemA, ADM.contentLegal, BDA.LD_SAT_images))
     vol = BDR[tid_to_volume_sat(T, volnum)]
     LOD_G.add((vol, RDF.type, BDO.VolumeImageAsset))
     LOD_G.add((vol, RDF.type, BDO.Volume))
-    LOD_G.add((item, BDO.itemHasVolume, vol))
-    LOD_G.add((vol, BDO.volumeForItem, item))
-    LOD_G.add((vol, BDO.volumeForItem, item))
+    LOD_G.add((item, BDO.instanceHasVolume, vol))
+    LOD_G.add((vol, BDO.volumeOf, item))
+    LOD_G.add((vol, BDO.volumeOf, item))
     LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
     manifest = tid_to_manifest_sat(TforSAT, volnum)
     LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
