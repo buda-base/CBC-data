@@ -101,7 +101,7 @@ def rktsid_to_abstract(rkts):
         rkts = RKTS_SAMEABSTRACT[rkts]
     if rkts in RKTS_TO_ABSTRACT:
         return RKTS_TO_ABSTRACT[rkts]
-    return "W0R%sA%s" % (rkts[0],rkts[1:])
+    return "WA0R%sI%s" % (rkts[0],rkts[1:])
 
 with open('input/Taisho-groups.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -176,16 +176,16 @@ with open('input/index-chtitles.csv', newline='') as csvfile:
         T_TO_CHTITLE[T]=row[1]
 
 def group_to_abstract(group):
-    return "W0TGA%s" % group
+    return "WA0TTGA%s" % group
 
 def tid_to_abstract(tid):
-    return "W0TA%s" % tid
+    return "WA0TTA%s" % tid
 
 def tid_to_taishopart(tid):
-    return "W0TT%s" % tid
+    return "MW0TTP%s" % tid
 
 def tid_to_expr(tid):
-    return "W0TE%s" % tid
+    return "WA0TT%s" % tid
 
 for T in T_TO_CHTITLE:
     if T in T_TO_ABSTRACT:

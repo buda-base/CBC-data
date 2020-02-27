@@ -4,6 +4,7 @@ import rdflib
 from rdflib import URIRef, Literal, BNode
 from rdflib.namespace import RDF, SKOS, OWL, Namespace, NamespaceManager, XSD
 
+BF = Namespace("http://id.loc.gov/ontologies/bibframe/")
 BDR = Namespace("http://purl.bdrc.io/resource/")
 BDO = Namespace("http://purl.bdrc.io/ontology/core/")
 BDG = Namespace("http://purl.bdrc.io/graph/")
@@ -23,6 +24,7 @@ NSM.bind("skos", SKOS)
 NSM.bind("rdf", RDF)
 NSM.bind("cbct", CBCT)
 NSM.bind("mbbt", MBBT)
+NSM.bind("bf", BF)
 
 GRAPHNAME = "http://purl.bdrc.io/graph/CBC-data"
 
@@ -110,7 +112,8 @@ with open('input/categories.csv', newline='') as csvfile:
             previouscat = firsttocat[1]
         T_TO_CAT[T] = previouscat
 
-MAIN_TAISHO_RID = "W0TT0000"
+MAIN_TAISHO_RID_A = "WA0TT0000"
+MAIN_TAISHO_RID = "MW0TT0000"
 
 ROOT_RIDS = [MAIN_TAISHO_RID]
 
@@ -125,6 +128,14 @@ LOD_G.add((BDR[MAIN_TAISHO_RID], RDF.type, BDO.Instance))
 LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("Taisho Revised Tripitaka", lang="en")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("大正新脩大藏經", lang="zh-Hant")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.isRoot, Literal(True)))
+
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], RDF.type, BDO.Work))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], SKOS.prefLabel, Literal("Taisho Revised Tripitaka", lang="en")))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], SKOS.prefLabel, Literal("大正新脩大藏經", lang="zh-Hant")))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.isRoot, Literal(True)))
+LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceOf, BDR[MAIN_TAISHO_RID_A]))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.workHasInstance, BDR[MAIN_TAISHO_RID]))
+
 
 LOD_G.add((BDA[MAIN_TAISHO_RID], RDF.type, ADM.AdminData))
 LOD_G.add((BDA[MAIN_TAISHO_RID], BDO.isRoot, Literal(True)))
@@ -159,16 +170,16 @@ def hasParent(id):
     return None
 
 def tid_to_taishopart(tid):
-    return "W0TT%s" % tid
+    return "MW0TT%s" % tid
 
 def tid_to_expr(tid):
-    return "W0TE%s" % tid
+    return "WA0TTE%s" % tid
 
 def tid_to_item_sat(tid):
-    return "I0SAT%s" % tid
+    return "W0SAT%s" % tid
 
 def tid_to_volume_sat(tid, volnum):
-    return "V0SAT%s_%d" % (tid,volnum)
+    return "I0SAT%s_%d" % (tid,volnum)
 
 def tid_to_manifest_sat(tid, volnum):
     tidstr = "%04d" % taisho_id_to_int(tid)
@@ -197,11 +208,14 @@ for T in ALL_T:
     else:
         parentsLastPart[parent] += 1
     res = BDR[tid_to_taishopart(T)]
-    LOD_G.add((BDR[parent], BDO.workHasPart, res))
+    LOD_G.add((BDR[parent], BDO.hasPart, res))
     LOD_G.add((res, RDF.type, BDO.Instance))
-    LOD_G.add((res, BDO.workPartOf, BDR[parent]))
-    LOD_G.add((res, BDO.workPartIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
-    LOD_G.add((res, BDO.workCBCSiglaT, Literal(T)))
+    LOD_G.add((res, BDO.partOf, BDR[parent]))
+    LOD_G.add((res, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
+    anode = rdflib.BNode()
+    LOD_G.add((res,BF.identifiedBy,anode))
+    LOD_G.add((anode,RDF.type,BDR.CBCSiglaT))
+    LOD_G.add((anode,RDF.value,Literal(T)))
     hasIndic = (taisho_id_to_int(T) < 1693)
     expr = BDR[tid_to_expr(T)]
     abstln = T_TO_ABSTRACT[T]
@@ -221,7 +235,7 @@ for T in ALL_T:
         LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
     else:
         expr = abst
-        LOD_G.add((res, BDO.workInstanceOf, abst))
+        LOD_G.add((res, BDO.instanceOf, abst))
         LOD_G.add((expr, BDO.language, BDR.LangZh))
         LOD_G.add((abst, BDO.workHasInstance, res))
     if T in T_TO_CBCA:
@@ -233,11 +247,13 @@ for T in ALL_T:
     if not hastextparent:
         LOD_G.add((expr, ADM.seeOtherSAT, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
     if T in T_TO_CN:
+        # TODO: maybe incipit title?
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
         LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
         LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
     if T in T_TO_SKT:
-        LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="sa-x-iast")))
+        for skt in T_TO_SKT[T]:
+            LOD_G.add((abst, SKOS.prefLabel, Literal(skt, lang="sa-x-iast")))
     if hastextparent:
         # SAT doesn't have manifests for subparts
         continue
@@ -248,7 +264,7 @@ for T in ALL_T:
     LOD_G.add((item, BDO.instanceReproductionOf, res))
     LOD_G.add((itemA, ADM.adminAbout, item))
     vol = BDR[tid_to_volume_sat(T, volnum)]
-    LOD_G.add((vol, RDF.type, BDO.VolumeImageAsset))
+    LOD_G.add((vol, RDF.type, BDO.ImageGroup))
     LOD_G.add((vol, RDF.type, BDO.Volume))
     LOD_G.add((item, BDO.instanceHasVolume, vol))
     LOD_G.add((vol, BDO.volumeOf, item))
