@@ -224,6 +224,7 @@ for T in ALL_T:
     if abstln in ABSTRACT_TO_MBBT:
         LOD_G.add((abst, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[abstln]]))
         LOD_G.add((abst, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[abstln]]))
+        LOD_G.add((MBBT[ABSTRACT_TO_MBBT[abstln]], OWL.sameAs, abst))
     if hasIndic:
         LOD_G.add((res, BDO.instanceOf, expr))
         LOD_G.add((expr, BDO.workHasInstance, res))
