@@ -263,12 +263,12 @@ for T in ALL_T:
     LOD_G.add((item, RDF.type, BDO.ImageInstance))
     LOD_G.add((item, BDO.instanceOf, abst))
     LOD_G.add((item, BDO.instanceReproductionOf, res))
+    LOD_G.add((res, BDO.instanceHasReproduction, item))
     LOD_G.add((itemA, ADM.adminAbout, item))
     vol = BDR[tid_to_volume_sat(T, volnum)]
     LOD_G.add((vol, RDF.type, BDO.ImageGroup))
     LOD_G.add((vol, RDF.type, BDO.Volume))
     LOD_G.add((item, BDO.instanceHasVolume, vol))
-    LOD_G.add((vol, BDO.volumeOf, item))
     LOD_G.add((vol, BDO.volumeOf, item))
     LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
     manifest = tid_to_manifest_sat(TforSAT, volnum)
