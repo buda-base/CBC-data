@@ -211,6 +211,7 @@ for T in ALL_T:
     LOD_G.add((BDR[parent], BDO.hasPart, res))
     LOD_G.add((res, RDF.type, BDO.Instance))
     LOD_G.add((res, BDO.partOf, BDR[parent]))
+    LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
     LOD_G.add((res, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
     anode = rdflib.BNode()
     LOD_G.add((res,BF.identifiedBy,anode))
