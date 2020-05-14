@@ -2,7 +2,7 @@ import csv
 import json
 import rdflib
 from rdflib import URIRef, Literal, BNode
-from rdflib.namespace import RDF, SKOS, OWL, Namespace, NamespaceManager, XSD
+from rdflib.namespace import RDF, SKOS, RDFS, OWL, Namespace, NamespaceManager, XSD
 
 BF = Namespace("http://id.loc.gov/ontologies/bibframe/")
 BDR = Namespace("http://purl.bdrc.io/resource/")
@@ -153,9 +153,9 @@ for cat in CATS:
     LOD_G.add((res, BDO.workPartOf, BDR[MAIN_TAISHO_RID]))
     LOD_G.add((res, BDO.workPartIndex, Literal(pi, datatype=XSD.integer)))
     if row[2]:
-        LOD_G.add((res, SKOS.prefLabel, Literal(cat[2], lang="en")))
+        LOD_G.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
     if row[3]:
-        LOD_G.add((res, SKOS.prefLabel, Literal(cat[3], lang="sa-x-iast")))
+        LOD_G.add((res, SKOS.altLabel, Literal(cat[3], lang="sa-x-iast")))
     if row[4]:
         LOD_G.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-hant")))
     pi += 1
@@ -248,6 +248,9 @@ for T in ALL_T:
         TforSAT = T[:-1]
     if not hastextparent:
         LOD_G.add((expr, ADM.seeOtherSAT, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
+        LOD_G.add((expr, ADM.seeOtherCBETA, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.AnyURI)))
+        LOD_G.add((expr, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.AnyURI)))
+        LOD_G.add((expr, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.AnyURI)))
     if T in T_TO_CN:
         # TODO: maybe incipit title?
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
