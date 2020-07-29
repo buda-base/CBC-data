@@ -148,10 +148,12 @@ LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.metadataLegal, BDA.LD_BDRC_CC0))
 pi = 1
 for cat in CATS:
     res = BDR[cat[1]]
-    LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.workHasPart, res))
+    LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.hasPart, res))
     LOD_G.add((res, RDF.type, BDO.Work))
-    LOD_G.add((res, BDO.workPartOf, BDR[MAIN_TAISHO_RID]))
-    LOD_G.add((res, BDO.workPartIndex, Literal(pi, datatype=XSD.integer)))
+    LOD_G.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
+    LOD_G.add((res, BDO.partType, BDR.PartTypeSection))
+    LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
+    LOD_G.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
     if row[2]:
         LOD_G.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
     if row[3]:
@@ -212,6 +214,7 @@ for T in ALL_T:
     LOD_G.add((res, RDF.type, BDO.Instance))
     LOD_G.add((res, BDO.partOf, BDR[parent]))
     LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
+    LOD_G.add((res, BDO.partType, BDR.PartTypeText))
     LOD_G.add((res, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
     anode = rdflib.BNode()
     LOD_G.add((res,BF.identifiedBy,anode))
