@@ -7,6 +7,7 @@ from rdflib.namespace import RDF, SKOS, RDFS, OWL, Namespace, NamespaceManager, 
 BF = Namespace("http://id.loc.gov/ontologies/bibframe/")
 BDR = Namespace("http://purl.bdrc.io/resource/")
 BDO = Namespace("http://purl.bdrc.io/ontology/core/")
+TMP = Namespace("http://purl.bdrc.io/ontology/tmp/")
 BDG = Namespace("http://purl.bdrc.io/graph/")
 BDA = Namespace("http://purl.bdrc.io/admindata/")
 ADM = Namespace("http://purl.bdrc.io/ontology/admin/")
@@ -144,6 +145,8 @@ LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, BDR[MAIN_TAISHO_RID]))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.restrictedInChina, Literal(False)))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.status, BDA.StatusReleased))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.metadataLegal, BDA.LD_BDRC_CC0))
+
+LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
 
 pi = 1
 for cat in CATS:
