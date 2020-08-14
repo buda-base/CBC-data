@@ -126,12 +126,12 @@ ROOT_RIDS = [MAIN_TAISHO_RID]
 
 ## main entry for the Taisho:
 LOD_G.add((BDR[MAIN_TAISHO_RID], RDF.type, BDO.Instance))
-LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("Taisho Revised Tripitaka", lang="en")))
+LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("Taishō Tripitaka", lang="en")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], SKOS.prefLabel, Literal("大正新脩大藏經", lang="zh-Hant")))
 LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.isRoot, Literal(True)))
 
 LOD_G.add((BDR[MAIN_TAISHO_RID_A], RDF.type, BDO.Work))
-LOD_G.add((BDR[MAIN_TAISHO_RID_A], SKOS.prefLabel, Literal("Taisho Revised Tripitaka", lang="en")))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], SKOS.prefLabel, Literal("Taishō Tripitaka", lang="en")))
 LOD_G.add((BDR[MAIN_TAISHO_RID_A], SKOS.prefLabel, Literal("大正新脩大藏經", lang="zh-Hant")))
 LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.isRoot, Literal(True)))
 LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceOf, BDR[MAIN_TAISHO_RID_A]))
