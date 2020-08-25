@@ -152,7 +152,7 @@ pi = 1
 for cat in CATS:
     res = BDR[cat[1]]
     LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.hasPart, res))
-    LOD_G.add((res, RDF.type, BDO.Work))
+    LOD_G.add((res, RDF.type, BDO.Instance))
     LOD_G.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
     LOD_G.add((res, BDO.partType, BDR.PartTypeSection))
     LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
