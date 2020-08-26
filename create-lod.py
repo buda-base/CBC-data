@@ -261,10 +261,10 @@ for T in ALL_T:
         # TODO: maybe incipit title?
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
         LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
-        LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
+        #LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
     if T in T_TO_SKT:
         for skt in T_TO_SKT[T]:
-            LOD_G.add((abst, SKOS.prefLabel, Literal(skt, lang="sa-x-iast")))
+            LOD_G.add((abst, SKOS.altLabel, Literal(skt, lang="sa-x-iast")))
     if hastextparent:
         # SAT doesn't have manifests for subparts
         continue
