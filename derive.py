@@ -81,6 +81,7 @@ T_TO_D = {}
 RKTS_SAMEABSTRACT = {}
 RKTS_TO_ABSTRACT = {}
 T_TO_ABSTRACT = {}
+T_TO_PARR = {}
 T_TO_CHTITLE = {}
 GROUP_TO_ABSTRACT = {}
 
@@ -95,13 +96,38 @@ with open('input/abstract-rkts.csv', newline='') as csvfile:
         if len(row) > 1 and row[1] and '?' not in row[1]:
             RKTS_TO_ABSTRACT[row[1]] = row[0]
 
+def normalizerkts(id):
+    id = id.strip()
+    dashidx = id.find('-')
+    numpart = id
+    suffix = ""
+    if dashidx != -1:
+        numpart = id[:dashidx]
+        suffix = id[dashidx:]
+    if numpart[-1].isalpha():
+        suffix = numpart[-1].upper()+suffix
+        numpart = numpart[:-1]
+    numpartint = int(numpart)
+    return "%04d%s" % (int(numpart),suffix)
+
 def rktsid_to_abstract(rkts):
     global RKTS_SAMEABSTRACT, RKTS_TO_ABSTRACT
     if rkts in RKTS_SAMEABSTRACT:
         rkts = RKTS_SAMEABSTRACT[rkts]
     if rkts in RKTS_TO_ABSTRACT:
         return RKTS_TO_ABSTRACT[rkts]
-    return "WA0R%sI%s" % (rkts[0],rkts[1:])
+    return "WA0R%sI%s" % (rkts[0],normalizerkts(rkts[1:]))
+
+def rktsid_to_all_tib_w(rkts):
+    global RKTS_SAMEABSTRACT
+    res = ["WA0R%s%s" % (rkts[0],normalizerkts(rkts[1:]))]
+    if rkts in RKTS_SAMEABSTRACT:
+        rkts = RKTS_SAMEABSTRACT[rkts]
+        res.append("WA0R%s%s" % (rkts[0],normalizerkts(rkts[1:])))
+    return res
+
+def tid_to_expr(tid):
+    return "WA0TTE%s" % tid
 
 with open('input/Taisho-groups.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -167,6 +193,11 @@ with open('input/derge-rkts.csv', newline='') as csvfile:
             continue
         for T in D_TO_T[D]:
             T_TO_ABSTRACT[T] = abstract
+            newrids = rktsid_to_all_tib_w(row[0])
+            if newrids:
+                if T not in T_TO_PARR:
+                    T_TO_PARR[T] = [tid_to_expr(T)]
+                T_TO_PARR[T].extend(newrids)
 
 # we consider that this contains all the identifiers
 with open('input/index-chtitles.csv', newline='') as csvfile:
@@ -184,9 +215,6 @@ def tid_to_abstract(tid):
 def tid_to_taishopart(tid):
     return "MW0TTP%s" % tid
 
-def tid_to_expr(tid):
-    return "WA0TT%s" % tid
-
 for T in T_TO_CHTITLE:
     if T in T_TO_ABSTRACT:
         continue
@@ -203,6 +231,19 @@ T_TO_TAISHOPART = {}
 for T in T_TO_CHTITLE:
     T_TO_EXPR[T] = tid_to_expr(T)
     T_TO_TAISHOPART[T] = tid_to_taishopart(T)
+
+# fill T_TO_PARR with Chinese parallels:
+for tlist in GROUP_TO_T.values():
+    for t in tlist:
+        if t not in T_TO_PARR:
+            T_TO_PARR[t] = [tid_to_expr(T)]
+        for t2 in tlist:
+            if t2 == t:
+                continue
+            if t2 not in T_TO_EXPR:
+                print("oops: ", t2)
+                continue
+            T_TO_PARR[t].append(T_TO_EXPR[t2])
 
 with open('derived/t_to_expr.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_EXPR, f, ensure_ascii=False, indent=4)
@@ -251,11 +292,14 @@ with open('input/Mbbt-Taisho.csv', newline='') as csvfile:
             print("warning: "+T+" in mbbt but not in abstract")
             #print(T_TO_ABSTRACT)
             continue
-        MBBT_TO_ABSTRACT[row[0]]=T_TO_ABSTRACT[T]
-        ABSTRACT_TO_MBBT[T_TO_ABSTRACT[T]]=row[0]
+        MBBT_TO_ABSTRACT[row[0]]=T_TO_EXPR[T]
+        ABSTRACT_TO_MBBT[T_TO_EXPR[T]]=row[0]
 
 with open('derived/mbbt-to-abstract.json', 'w', encoding='utf-8') as f:
     json.dump(MBBT_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
 
 with open('derived/abstract-to-mbbt.json', 'w', encoding='utf-8') as f:
     json.dump(ABSTRACT_TO_MBBT, f, ensure_ascii=False, indent=4)
+
+with open('derived/totoparr.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_PARR, f, ensure_ascii=False, indent=4)

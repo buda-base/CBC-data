@@ -71,6 +71,15 @@ with open('derived/t_to_vol.json', encoding='utf-8') as f:
 with open('derived/abstract-to-mbbt.json', encoding='utf-8') as f:
     ABSTRACT_TO_MBBT = json.load(f)
 
+with open('derived/totoparr.json', encoding='utf-8') as f:
+    TOTOPARR = json.load(f)
+
+for l in TOTOPARR.values():
+    for e in l:
+        for e2 in l:
+            if e2 != e:
+                LOD_G.add((BDR[e], BDO.workHasParallelsIn, BDR[e2]))
+
 with open('input/index-chtitles.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
     for row in tkreader:
@@ -224,28 +233,24 @@ for T in ALL_T:
     LOD_G.add((anode,RDF.type,BDR.CBCSiglaT))
     LOD_G.add((anode,RDF.value,Literal(T)))
     hasIndic = (taisho_id_to_int(T) < 1693)
-    expr = BDR[tid_to_expr(T)]
+    exprln = tid_to_expr(T)
+    expr = BDR[exprln]
     abstln = T_TO_ABSTRACT[T]
     abst = BDR[abstln]
     LOD_G.add((abst, RDF.type, BDO.Work))
-    if abstln in ABSTRACT_TO_MBBT:
-        LOD_G.add((abst, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[abstln]]))
-        LOD_G.add((abst, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[abstln]]))
-        LOD_G.add((MBBT[ABSTRACT_TO_MBBT[abstln]], OWL.sameAs, abst))
+    LOD_G.add((res, BDO.instanceOf, expr))
+    LOD_G.add((expr, BDO.workHasInstance, res))
+    LOD_G.add((expr, BDO.language, BDR.LangZh))
+    LOD_G.add((expr, RDF.type, BDO.Work))
     if hasIndic:
-        LOD_G.add((res, BDO.instanceOf, expr))
-        LOD_G.add((expr, BDO.workHasInstance, res))
-        LOD_G.add((expr, BDO.language, BDR.LangZh))
-        LOD_G.add((expr, RDF.type, BDO.Work))
-        LOD_G.add((expr, BDO.workTranslationOf, abst))
-        LOD_G.add((abst, BDO.workHasTranslation, expr))
+        LOD_G.add((expr, BDO.workHasParallelsIn, abst))
+        LOD_G.add((abst, BDO.workHasParallelsIn, expr))
         LOD_G.add((abst, BDO.language, BDR.LangInc))
         LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
-    else:
-        expr = abst
-        LOD_G.add((res, BDO.instanceOf, abst))
-        LOD_G.add((expr, BDO.language, BDR.LangZh))
-        LOD_G.add((abst, BDO.workHasInstance, res))
+    if exprln in ABSTRACT_TO_MBBT:
+        LOD_G.add((expr, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[exprln]]))
+        LOD_G.add((expr, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[exprln]]))
+        LOD_G.add((MBBT[ABSTRACT_TO_MBBT[exprln]], OWL.sameAs, expr))
     if T in T_TO_CBCA:
         LOD_G.add((expr, ADM.sameAsCBCAt, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
         LOD_G.add((expr, OWL.sameAs, URIRef(CBCT_URI+T_TO_CBCA[T]+"/")))
@@ -264,7 +269,8 @@ for T in ALL_T:
         #LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
     if T in T_TO_SKT:
         for skt in T_TO_SKT[T]:
-            LOD_G.add((abst, SKOS.altLabel, Literal(skt, lang="sa-x-iast")))
+            if abst:
+                LOD_G.add((abst, SKOS.altLabel, Literal(skt, lang="sa-x-iast")))
     if hastextparent:
         # SAT doesn't have manifests for subparts
         continue
