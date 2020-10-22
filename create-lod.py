@@ -262,6 +262,8 @@ for T in ALL_T:
         #LOD_G.add((expr, ADM.seeOtherCBETA, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
         LOD_G.add((expr, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
         LOD_G.add((expr, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
+        LOD_G.add((res, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
+        LOD_G.add((res, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
     if T in T_TO_CN:
         # TODO: maybe incipit title?
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
