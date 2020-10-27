@@ -235,18 +235,21 @@ for T in ALL_T:
     hasIndic = (taisho_id_to_int(T) < 1693)
     exprln = tid_to_expr(T)
     expr = BDR[exprln]
-    abstln = T_TO_ABSTRACT[T]
-    abst = BDR[abstln]
-    LOD_G.add((abst, RDF.type, BDO.Work))
+    abst = None
+    if T in T_TO_ABSTRACT:
+        abst = BDR[T_TO_ABSTRACT[T]]
+    if abst:
+        LOD_G.add((abst, RDF.type, BDO.Work))
+        LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, abst))
     LOD_G.add((res, BDO.instanceOf, expr))
+    LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
     LOD_G.add((expr, BDO.workHasInstance, res))
     LOD_G.add((expr, BDO.language, BDR.LangZh))
     LOD_G.add((expr, RDF.type, BDO.Work))
-    if hasIndic:
+    if hasIndic and abst:
         LOD_G.add((expr, BDO.workHasParallelsIn, abst))
         LOD_G.add((abst, BDO.workHasParallelsIn, expr))
         LOD_G.add((abst, BDO.language, BDR.LangInc))
-        LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
     if exprln in ABSTRACT_TO_MBBT:
         LOD_G.add((expr, ADM.sameAsMBBT, MBBT[ABSTRACT_TO_MBBT[exprln]]))
         LOD_G.add((expr, OWL.sameAs, MBBT[ABSTRACT_TO_MBBT[exprln]]))
@@ -279,7 +282,8 @@ for T in ALL_T:
     volnum = T_TO_VOLNUM[T]
     item = BDR[tid_to_item_sat(T)]
     LOD_G.add((item, RDF.type, BDO.ImageInstance))
-    LOD_G.add((item, BDO.instanceOf, abst))
+    LOD_G.add((item, TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+    LOD_G.add((item, BDO.instanceOf, expr))
     LOD_G.add((item, BDO.instanceReproductionOf, res))
     LOD_G.add((res, BDO.instanceHasReproduction, item))
     LOD_G.add((itemA, ADM.adminAbout, item))

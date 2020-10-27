@@ -220,8 +220,8 @@ for T in T_TO_CHTITLE:
         continue
     elif T in T_TO_GROUP:
         T_TO_ABSTRACT[T] = group_to_abstract(T_TO_GROUP[T])
-    else:
-        T_TO_ABSTRACT[T] = tid_to_abstract(T)
+    #else:
+    #    T_TO_ABSTRACT[T] = tid_to_abstract(T)
 
 with open('derived/t_to_abstract.json', 'w', encoding='utf-8') as f:
     json.dump(T_TO_ABSTRACT, f, ensure_ascii=False, indent=4)
@@ -288,8 +288,8 @@ with open('input/Mbbt-Taisho.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
     for row in tkreader:
         T = normalize_taisho_id(row[1])
-        if T not in T_TO_ABSTRACT:
-            print("warning: "+T+" in mbbt but not in abstract")
+        if T not in T_TO_EXPR:
+            print("warning: "+T+" in mbbt but not in expr")
             #print(T_TO_ABSTRACT)
             continue
         MBBT_TO_ABSTRACT[row[0]]=T_TO_EXPR[T]
