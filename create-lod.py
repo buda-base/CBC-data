@@ -124,12 +124,34 @@ with open('input/categories.csv', newline='') as csvfile:
 
 MAIN_TAISHO_RID_A = "WA0TT0000"
 MAIN_TAISHO_RID = "MW0TT0000"
+MAIN_TAISHO_RID_W = "W0TT0000"
 
 ROOT_RIDS = [MAIN_TAISHO_RID]
 
 #
 # Generate some data
 #
+
+
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.Instance))
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.ImageInstance))
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceReproductionOf, BDR[MAIN_TAISHO_RID]))
+LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceHasReproduction, BDR[MAIN_TAISHO_RID_W]))
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceOf, BDR[MAIN_TAISHO_RID_A]))
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.workHasInstance, BDR[MAIN_TAISHO_RID_W]))
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.scanInfo, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
+LOD_G.add((BDR[MAIN_TAISHO_RID_W], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], RDF.type, ADM.AdminData))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], BDO.isRoot, Literal(True)))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.adminAbout, BDR[MAIN_TAISHO_RID_W]))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.restrictedInChina, Literal(False)))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.status, BDA.StatusReleased))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.metadataLegal, BDA.LD_BDRC_CC0))
+LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.contentLegal, BDA.LD_SAT_images))
+
 
 ## TODO: abstract work for the Chinese Canon
 
@@ -154,6 +176,9 @@ LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, BDR[MAIN_TAISHO_RID]))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.restrictedInChina, Literal(False)))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.status, BDA.StatusReleased))
 LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.metadataLegal, BDA.LD_BDRC_CC0))
+
+LOD_G.add((BDR[MAIN_TAISHO_RID_A], TMP.entityScore, Literal(1000)))
+LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.entityScore, Literal(1000)))
 
 LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
 
