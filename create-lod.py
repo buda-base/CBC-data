@@ -40,6 +40,7 @@ T_TO_VOLNUM = {}
 ALL_T = []
 T_TO_CBCA = {}
 ABSTRACT_TO_MBBT = {}
+T_TO_TRANS = {}
 
 def normalize_taisho_id(id):
     id = id.strip()
@@ -58,6 +59,9 @@ def normalize_taisho_id(id):
         numpart = numpart[:-1]
     numpartint = int(numpart)
     return "T%04d%s" % (int(numpart),suffix)
+
+with open('derived/t_to_trans.json', encoding='utf-8') as f:
+    T_TO_TRANS = json.load(f)
 
 with open('derived/t_to_abstract.json', encoding='utf-8') as f:
     T_TO_ABSTRACT = json.load(f)
@@ -297,6 +301,11 @@ for T in ALL_T:
         LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
         LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
         #LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
+    if T in T_TO_TRANS:
+        # TODO: maybe incipit title?
+        for lname in T_TO_TRANS[T]:
+            LOD_G.add((expr, BDO.workHasTranslation, BDR[lname]))
+            LOD_G.add((BDR[lname], BDO.workTranslationOf, expr))
     if T in T_TO_SKT:
         for skt in T_TO_SKT[T]:
             if abst:

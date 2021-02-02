@@ -148,6 +148,18 @@ with open('input/Taisho-groups.csv', newline='') as csvfile:
             T_TO_GROUP[idnorm] = groupname
             tlist.append(idnorm)
 
+with open('input/Taisho-K-translations.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    res = {}
+    next(tkreader, None) # skip first line
+    for row in tkreader:
+        if '?' in row[1]:
+            continue
+        taisho = normalize_taisho_id(row[0])
+        rkts = rktsid_to_all_tib_w(row[1])
+        res[taisho] = rkts
+    with open('derived/t_to_trans.json', 'w', encoding='utf-8') as f:
+        json.dump(res, f, ensure_ascii=False, indent=4)
 
 with open('input/Derge-Taisho.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
