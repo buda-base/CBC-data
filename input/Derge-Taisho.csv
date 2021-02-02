@@ -12,7 +12,7 @@ Derge,Taisho,Note
 5,1443,
 6,1451,
 7,1435,
-7a,,
+7a,1435,
 8,220(1),
 9,"222,220(2),223,221",
 10,220(3),
@@ -29,7 +29,7 @@ Derge,Taisho,Note
 24,"232,233,310(46),220(7)",
 25,230,
 31,"109,110",
-33,"1244,1245",?very odd?
+33,"1244,1245"
 34,19,
 36,138,
 39,597,
@@ -37,6 +37,7 @@ Derge,Taisho,Note
 42,,99(583)
 44,"279,278",
 44-31,"285,287,286",
+44-37,"289,290",
 44-45,"293,294,295",
 44-45e,"296,297","in the Derge, this text is part of the 45th chapter, we split it here as it has some separate correspondences"
 45,"311,310(1)",
@@ -101,7 +102,7 @@ Derge,Taisho,Note
 105,486,
 106,"675,676,677,679,678","? not sure these are all the same, it's not very clear in the Hobogirin... maybe replacing with 675,676 is safer"
 107,"670,671,672",
-108,,"this is just one chapter of the Lamkaravatara, translated from the Chinese (T0670)"
+108,,"670,671,672"
 109,"467,466,465,464",
 110,"681,682",
 111,380,
@@ -112,9 +113,9 @@ Derge,Taisho,Note
 116,1050,
 117,"462,461",
 118,"355,356",
-119,"374,375,376",add 377?
-120,"376,375(1-18),374(1-6)"," this is quite complex, see Taisho-group spreadsheet ?"
-121,390,
+119,"374,375,376,390"
+120,"374,375,376,390"
+121,"374,375,376,390"
 123,653,"odd, is D220 another translation of D123?"
 127,639,
 129,648,
@@ -197,7 +198,9 @@ Derge,Taisho,Note
 238,761,
 239,"410,411",
 240,"266,267,268",
+241,"355,356",
 242,998,
+243,2883
 246,"833,834",
 251,"773,772",maybe also 771? see Taisho-groups
 252,774,
@@ -206,9 +209,11 @@ Derge,Taisho,Note
 258,"666,667",
 259,"829,830,828",
 260,"407,405,408,406",
-261,"310(38),346,345",is it another translation of D82? TODO: ask JS
+261,"310(38),346,345",
 262,443,
+264,2871,indicated in Silk
 266,434,
+268,"289,290",
 269,435,
 270,"1333,1334,1147",
 271,"427,428,429,430,431",
@@ -257,7 +262,7 @@ Derge,Taisho,Note
 351,171,"152(14),"
 352,21,also 1(21)
 353,156,
-354,2881,really? odd
+354,2881
 358,"551,552,1300,1301",
 359a,784,
 360,"1189,1190,1188,1187",see Taisho-groups ?
@@ -341,7 +346,7 @@ Derge,Taisho,Note
 644,"1168A,1167,1168a,1168B",removing (Dharani)
 646,"1313,1314",removing (Dharani)
 647,"1313,1314",removing (Dharani)
-656,"1244,1245",removing (Dharani)
+656,"1244,1245"
 657,"992,989,993,991",removing (Dharani)
 660,"1302,1303",removing (Dharani)
 661,"1302,1303",removing (Dharani)
@@ -393,6 +398,7 @@ Derge,Taisho,Note
 805,"895,896",removing (Dharani)
 806,897,removing (Dharani)
 807,893,removing (Dharani)
+809,998
 847,299,removing (Dharani)
 848,"1397,1398",removing (Dharani)
 849,"937,936",removing (Dharani)
@@ -467,7 +473,9 @@ Derge,Taisho,Note
 1043,901,Only in Adarsha
 1059,999cf.,removing (Dharani)
 1061,"1244,1245",removing (Dharani)
+1062,19
 1063,"992,989,991,993",removing (Dharani)
+1067,2897
 1078,1386,removing (Dharani)
 1079,"1313,1314",removing (Dharani)
 1080,"1313,1314",removing (Dharani)
