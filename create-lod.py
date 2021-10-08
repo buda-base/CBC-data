@@ -1,6 +1,7 @@
 import csv
 import json
 import rdflib
+import sys
 from rdflib import URIRef, Literal, BNode
 from rdflib.namespace import RDF, SKOS, RDFS, OWL, Namespace, NamespaceManager, XSD
 
@@ -28,6 +29,12 @@ NSM.bind("mbbt", MBBT)
 NSM.bind("bf", BF)
 
 GRAPHNAME = "http://purl.bdrc.io/graph/CBC-data"
+
+DIRECTSCANS = False
+SATIMAGES = True
+if "-c" in sys.argv:
+    DIRECTSCANS = True
+    SATIMAGES = False
 
 LOD_DS = rdflib.Dataset()
 LOD_G = LOD_DS.graph(BDG[GRAPHNAME])
@@ -60,6 +67,7 @@ def normalize_taisho_id(id):
     numpartint = int(numpart)
     return "T%04d%s" % (int(numpart),suffix)
 
+
 with open('derived/t_to_trans.json', encoding='utf-8') as f:
     T_TO_TRANS = json.load(f)
 
@@ -83,6 +91,23 @@ for l in TOTOPARR.values():
         for e2 in l:
             if e2 != e:
                 LOD_G.add((BDR[e], BDO.workHasParallelsIn, BDR[e2]))
+
+BDRCSTARTPAGE = {}
+with open('input/bdrcstartpage.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        BDRCSTARTPAGE[int(row[0])] = int(row[1])
+
+BDRCLOCS = {}
+with open('input/pageranges.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    for row in tkreader:
+        BDRCLOCS['T'+row[0]] = {
+            "bvol": int(row[1]),
+            "evol": int(row[2]),
+            "bpage": int(row[3])+BDRCSTARTPAGE[int(row[1])]-1,
+            "epage": int(row[4])+BDRCSTARTPAGE[int(row[1])]-1,
+            }
 
 with open('input/index-chtitles.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
@@ -137,24 +162,26 @@ ROOT_RIDS = [MAIN_TAISHO_RID]
 #
 
 
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.Instance))
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.ImageInstance))
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceReproductionOf, BDR[MAIN_TAISHO_RID]))
-LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceHasReproduction, BDR[MAIN_TAISHO_RID_W]))
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceOf, BDR[MAIN_TAISHO_RID_A]))
-LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.workHasInstance, BDR[MAIN_TAISHO_RID_W]))
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.scanInfo, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
-LOD_G.add((BDR[MAIN_TAISHO_RID_W], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+if SATIMAGES:
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.Instance))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], RDF.type, BDO.ImageInstance))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceReproductionOf, BDR[MAIN_TAISHO_RID]))
+    LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceHasReproduction, BDR[MAIN_TAISHO_RID_W]))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceOf, BDR[MAIN_TAISHO_RID_A]))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_A], BDO.workHasInstance, BDR[MAIN_TAISHO_RID_W]))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.scanInfo, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
+    LOD_G.add((BDR[MAIN_TAISHO_RID_W], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+    LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
 
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], RDF.type, ADM.AdminData))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], BDO.isRoot, Literal(True)))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.adminAbout, BDR[MAIN_TAISHO_RID_W]))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.restrictedInChina, Literal(False)))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.status, BDA.StatusReleased))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.metadataLegal, BDA.LD_BDRC_CC0))
-LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.contentLegal, BDA.LD_SAT_images))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], RDF.type, ADM.AdminData))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], BDO.isRoot, Literal(True)))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.adminAbout, BDR[MAIN_TAISHO_RID_W]))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.restrictedInChina, Literal(False)))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.status, BDA.StatusReleased))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.metadataLegal, BDA.LD_BDRC_CC0))
+    LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.contentLegal, BDA.LD_SAT_images))
 
 
 ## TODO: abstract work for the Chinese Canon
@@ -183,8 +210,6 @@ LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.metadataLegal, BDA.LD_BDRC_CC0))
 
 LOD_G.add((BDR[MAIN_TAISHO_RID_A], TMP.entityScore, Literal(1000)))
 LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.entityScore, Literal(1000)))
-
-LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
 
 pi = 1
 for cat in CATS:
@@ -310,24 +335,38 @@ for T in ALL_T:
         for skt in T_TO_SKT[T]:
             if abst:
                 LOD_G.add((abst, SKOS.altLabel, Literal(skt, lang="sa-x-iast")))
-    if hastextparent:
-        # SAT doesn't have manifests for subparts
-        continue
-    volnum = T_TO_VOLNUM[T]
-    item = BDR[tid_to_item_sat(T)]
-    LOD_G.add((item, RDF.type, BDO.ImageInstance))
-    LOD_G.add((item, TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
-    LOD_G.add((item, BDO.instanceOf, expr))
-    LOD_G.add((item, BDO.instanceReproductionOf, res))
-    LOD_G.add((res, BDO.instanceHasReproduction, item))
-    LOD_G.add((itemA, ADM.adminAbout, item))
-    vol = BDR[tid_to_volume_sat(T, volnum)]
-    LOD_G.add((vol, RDF.type, BDO.ImageGroup))
-    LOD_G.add((vol, RDF.type, BDO.Volume))
-    LOD_G.add((item, BDO.instanceHasVolume, vol))
-    LOD_G.add((vol, BDO.volumeOf, item))
-    LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
-    manifest = tid_to_manifest_sat(TforSAT, volnum)
-    LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
+    if SATIMAGES:
+        if hastextparent:
+            # SAT doesn't have manifests for subparts
+            continue
+        volnum = T_TO_VOLNUM[T]
+        item = BDR[tid_to_item_sat(T)]
+        LOD_G.add((item, RDF.type, BDO.ImageInstance))
+        LOD_G.add((item, TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+        LOD_G.add((item, BDO.instanceOf, expr))
+        LOD_G.add((item, BDO.instanceReproductionOf, res))
+        LOD_G.add((res, BDO.instanceHasReproduction, item))
+        LOD_G.add((itemA, ADM.adminAbout, item))
+        vol = BDR[tid_to_volume_sat(T, volnum)]
+        LOD_G.add((vol, RDF.type, BDO.ImageGroup))
+        LOD_G.add((vol, RDF.type, BDO.Volume))
+        LOD_G.add((item, BDO.instanceHasVolume, vol))
+        LOD_G.add((vol, BDO.volumeOf, item))
+        LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
+        manifest = tid_to_manifest_sat(TforSAT, volnum)
+        LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
+    if DIRECTSCANS:
+        if T not in BDRCLOCS:
+            continue
+        loc = BDRCLOCS[T]
+        cl = BDR["CLW0TT0"+T]
+        LOD_G.add((res, BDO.contentLocation, cl))
+        LOD_G.add((cl, RDF.type, BDO.ContentLocation))
+        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
+        LOD_G.add((cl, BDO.contentLocationVolume, Literal(loc["bvol"], datatype=XSD.integer)))
+        if loc["bvol"] != loc["evol"]:
+            LOD_G.add((cl, BDO.contentLocationEndVolume, Literal(loc["evol"], datatype=XSD.integer)))
+        LOD_G.add((cl, BDO.contentLocationPage, Literal(loc["bpage"], datatype=XSD.integer)))
+        LOD_G.add((cl, BDO.contentLocationEndPage, Literal(loc["epage"], datatype=XSD.integer)))
 
 print(LOD_G.serialize(format='ttl').decode("utf-8") )
