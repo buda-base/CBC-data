@@ -182,7 +182,13 @@ if SATIMAGES:
     LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.access, BDA.AccessOpen))
     LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.metadataLegal, BDA.LD_BDRC_CC0))
     LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.contentLegal, BDA.LD_SAT_images))
-
+    for i in range(1,101):
+        vol = BDR["I0TT00%d" % i]
+        LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.adminAbout, vol))
+        LOD_G.add((vol, RDF.type, BDO.ImageGroup))
+        LOD_G.add((vol, BDO.volumeOf, BDR[MAIN_TAISHO_RID_W]))
+        LOD_G.add((vol, BDO.volumeNumber, Literal(i, datatype=XSD.integer)))
+        LOD_G.add((vol, RDFS.comment, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
 
 ## TODO: abstract work for the Chinese Canon
 
