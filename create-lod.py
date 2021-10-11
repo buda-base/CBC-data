@@ -187,6 +187,7 @@ if SATIMAGES:
         LOD_G.add((BDA[MAIN_TAISHO_RID_W], ADM.adminAbout, vol))
         LOD_G.add((vol, RDF.type, BDO.ImageGroup))
         LOD_G.add((vol, BDO.volumeOf, BDR[MAIN_TAISHO_RID_W]))
+        LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceHasVolume, vol))
         LOD_G.add((vol, BDO.volumeNumber, Literal(i, datatype=XSD.integer)))
         LOD_G.add((vol, RDFS.comment, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
 
@@ -358,9 +359,14 @@ for T in ALL_T:
         LOD_G.add((vol, RDF.type, BDO.Volume))
         LOD_G.add((item, BDO.instanceHasVolume, vol))
         LOD_G.add((vol, BDO.volumeOf, item))
-        LOD_G.add((vol, BDO.volumeNumber, Literal(1, datatype=XSD.integer)))
+        LOD_G.add((vol, BDO.volumeNumber, Literal(volnum, datatype=XSD.integer)))
         manifest = tid_to_manifest_sat(TforSAT, volnum)
         LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
+        cl = BDR["CLW0TT0"+T]
+        LOD_G.add((res, BDO.contentLocation, cl))
+        LOD_G.add((cl, RDF.type, BDO.ContentLocation))
+        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
+        LOD_G.add((cl, BDO.contentLocationVolume, Literal(volnum, datatype=XSD.integer)))
     if DIRECTSCANS:
         if T not in BDRCLOCS:
             continue
