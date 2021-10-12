@@ -229,7 +229,10 @@ for cat in CATS:
     cl = BDR["CL"+cat[1]]
     LOD_G.add((res, BDO.contentLocation, cl))
     LOD_G.add((cl, RDF.type, BDO.ContentLocation))
-    LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
+    if DIRECTSCANS:
+        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
+    else:
+        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
     LOD_G.add((cl, BDO.contentLocationVolume, Literal(cat[6], datatype=XSD.integer)))
     LOD_G.add((cl, BDO.contentLocationEndVolume, Literal(cat[7], datatype=XSD.integer)))
     LOD_G.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
