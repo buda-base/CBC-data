@@ -226,6 +226,12 @@ for cat in CATS:
     LOD_G.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
     LOD_G.add((res, BDO.partType, BDR.PartTypeSection))
     LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
+    cl = BDR["CL"+cat[1]]
+    LOD_G.add((res, BDO.contentLocation, cl))
+    LOD_G.add((cl, RDF.type, BDO.ContentLocation))
+    LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
+    LOD_G.add((cl, BDO.contentLocationVolume, Literal(cat[6], datatype=XSD.integer)))
+    LOD_G.add((cl, BDO.contentLocationEndVolume, Literal(cat[7], datatype=XSD.integer)))
     LOD_G.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
     if row[2]:
         LOD_G.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
