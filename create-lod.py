@@ -191,6 +191,8 @@ if SATIMAGES:
         LOD_G.add((BDR[MAIN_TAISHO_RID_W], BDO.instanceHasVolume, vol))
         LOD_G.add((vol, BDO.volumeNumber, Literal(i, datatype=XSD.integer)))
         LOD_G.add((vol, RDFS.comment, Literal("These images from SAT are only accessible through the outline of the version.", lang="en")))
+else:
+    LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.instanceHasReproduction, BDR["W0TT0"]))
 
 ## TODO: abstract work for the Chinese Canon
 
@@ -341,9 +343,14 @@ for T in ALL_T:
         LOD_G.add((res, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
     if T in T_TO_CN:
         # TODO: maybe incipit title?
-        LOD_G.add((res, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
-        LOD_G.add((expr, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
-        #LOD_G.add((abst, SKOS.prefLabel, Literal(T_TO_CN[T], lang="zh-hant")))
+        title = Literal(T_TO_CN[T], lang="zh-hant")
+        LOD_G.add((res, SKOS.prefLabel, title))
+        LOD_G.add((expr, SKOS.prefLabel, title))
+        titlenode = rdflib.BNode()
+        LOD_G.add((res, BDO.hasTitle, titlenode))
+        LOD_G.add((titlenode, RDF.type, BDO.IncipitTitle))
+        LOD_G.add((titlenode, RDFS.label, title))
+        #LOD_G.add((abst, SKOS.prefLabel, title))
     if T in T_TO_TRANS:
         # TODO: maybe incipit title?
         for lname in T_TO_TRANS[T]:
