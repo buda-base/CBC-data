@@ -42,7 +42,7 @@ with open('derived/t_to_skt.json', 'w', encoding='utf-8') as f:
 
 
 def normalize_taisho_id(id):
-    id = id.strip()
+    id = id.strip().replace(' ', '')
     if '(' in id:
         id = id.replace('(', '-').replace(')', '')
     dashidx = id.find('-')
@@ -58,6 +58,47 @@ def normalize_taisho_id(id):
         numpart = numpart[:-1]
     numpartint = int(numpart)
     return "T%04d%s" % (int(numpart),suffix)
+
+def normalize_k_id(id):
+    id = id.strip().replace(' ', '')
+    if '(' in id:
+        id = id.replace('(', '-').replace(')', '')
+    dashidx = id.find('-')
+    numpart = id
+    suffix = ""
+    prefix = "K"
+    if dashidx != -1:
+        numpart = id[:dashidx]
+        suffix = id[dashidx:]
+    if numpart.startswith('KS'):
+        numpart = numpart[2:]
+        prefix = "KS"
+    if numpart.startswith('K'):
+        numpart = numpart[1:]
+    if numpart[-1].isalpha():
+        suffix = numpart[-1].upper()+suffix
+        numpart = numpart[:-1]
+    numpartint = int(numpart)
+    return "%s%04d%s" % (prefix, int(numpart),suffix)
+
+T_TO_PART = {}
+
+with open('input/W3CN27014.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    next(tkreader)
+    for row in tkreader:
+        if row[0] == "":
+            continue
+        k = normalize_k_id(row[0])
+        t = None
+        if row[6] != "":
+            t = normalize_taisho_id(row[6])
+            if t not in T_TO_PART:
+                T_TO_PART[t] = []
+            T_TO_PART[t].append("MW3CN27014_"+k)
+
+with open('derived/t_to_part.json', 'w', encoding='utf-8') as f:
+    json.dump(T_TO_PART, f, ensure_ascii=False, indent=4)
 
 def taisho_to_group_id(id):
     id = normalize_taisho_id(id)
