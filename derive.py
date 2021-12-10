@@ -143,11 +143,13 @@ with open('input/W3CN27014.csv', newline='') as csvfile:
             subparti += 1
             reg.add((mw, BDO.partOf, previousText))
             reg.add((mw, BDO.partIndex, Literal(subparti, datatype=XSD.integer)))
+            reg.add((previousText, BDO.hasPart, mw))
         else:
             previousText = mw
             mainparti += 1
             subparti = 0
             reg.add((mw, BDO.partOf, rootmw))
+            reg.add((rootmw, BDO.hasPart, mw))
             reg.add((mw, BDO.partIndex, Literal(mainparti, datatype=XSD.integer)))
         reg.add((mw, RDF.type, BDO.Instance))
         reg.add((mw, BDO.inRootInstance, rootmw))
@@ -172,7 +174,8 @@ with open('input/W3CN27014.csv', newline='') as csvfile:
         reg.add((clr, BDO.contentLocationPage, Literal(row[3], datatype=XSD.integer)))
         reg.add((clr, BDO.contentLocationVolume, Literal(row[2], datatype=XSD.integer)))
         reg.add((clr, BDO.contentLocationEndPage, Literal(row[4], datatype=XSD.integer)))
-        reg.add((clr, BDO.contentLocationEndVolume, Literal(row[5], datatype=XSD.integer)))
+        if row[5] != row[2]:
+            reg.add((clr, BDO.contentLocationEndVolume, Literal(row[5], datatype=XSD.integer)))
         reg.add((clr, BDO.contentLocationInstance, rootw))
 
 reg.serialize("derived/MW3CN27014.ttl", format="turtle")

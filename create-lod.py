@@ -35,6 +35,7 @@ SATIMAGES = True
 if "-c" in sys.argv:
     DIRECTSCANS = True
     SATIMAGES = False
+    print("ric mode on")
 
 LOD_DS = rdflib.Dataset()
 LOD_G = LOD_DS.graph(BDG[GRAPHNAME])
@@ -399,4 +400,4 @@ for T in ALL_T:
         LOD_G.add((cl, BDO.contentLocationPage, Literal(loc["bpage"], datatype=XSD.integer)))
         LOD_G.add((cl, BDO.contentLocationEndPage, Literal(loc["epage"], datatype=XSD.integer)))
 
-print(LOD_G.serialize(format='ttl').decode("utf-8") )
+LOD_G.serialize("CBC.ttl", format="turtle")

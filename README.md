@@ -19,6 +19,6 @@ Data in the Public domain, gathered from the following sources:
 
 ```
 python3 derive.py
-python3 create-lod.py > CBC.ttl
+python3 create-lod.py
 curl -X PUT -H Content-Type:text/turtle -T CBC.ttl -G http://buda1.bdrc.io:13180/fuseki/corerw/data --data-urlencode 'graph=http://purl.bdrc.io/graph/CBC-data'
 ```
