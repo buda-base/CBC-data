@@ -161,7 +161,12 @@ with open('input/W3CN27014.csv', newline='') as csvfile:
             reg.add((mw, SKOS.prefLabel, Literal(row[9], lang="zh-hant")))
             reg.add((mw, SKOS.hiddenLabel, Literal(row[1], lang="zh-hant")))
         elif row[1] != "":
-            reg.add((mw, SKOS.prefLabel, Literal(row[1], lang="zh-hant")))
+            titlel = Literal(row[1], lang="zh-hant")
+            reg.add((mw, SKOS.prefLabel, titlel))
+            titlenode = BDR["TTMW3CN27014_"+k]
+            reg.add((mw, BDO.hasTitle, titlenode))
+            reg.add((titlenode, RDF.type, BDO.IncipitTitle))
+            reg.add((titlenode, RDFS.label, titlel))
         if row[7] != "":
             reg.add((mw, SKOS.altLabel, Literal(row[7], lang="ko")))
         idr = BDR["IDMW3CN27014_"+k]

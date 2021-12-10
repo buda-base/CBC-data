@@ -400,4 +400,4 @@ for T in ALL_T:
         LOD_G.add((cl, BDO.contentLocationPage, Literal(loc["bpage"], datatype=XSD.integer)))
         LOD_G.add((cl, BDO.contentLocationEndPage, Literal(loc["epage"], datatype=XSD.integer)))
 
-LOD_G.serialize("CBC.ttl", format="turtle")
+LOD_G.serialize("CBC-cl.ttl", format="turtle")
