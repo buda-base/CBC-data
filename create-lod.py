@@ -68,7 +68,6 @@ def normalize_taisho_id(id):
     numpartint = int(numpart)
     return "T%04d%s" % (int(numpart),suffix)
 
-
 with open('derived/t_to_trans.json', encoding='utf-8') as f:
     T_TO_TRANS = json.load(f)
 
@@ -223,30 +222,65 @@ LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.metadataLegal, BDA.LD_BDRC_CC0))
 LOD_G.add((BDR[MAIN_TAISHO_RID_A], TMP.entityScore, Literal(1000)))
 LOD_G.add((BDR[MAIN_TAISHO_RID], TMP.entityScore, Literal(1000)))
 
+# direct scans outline graph, W0TT0
+DSOG = rdflib.Graph()
+DSOG.namespace_manager = NSM
+DSOG.add((BDA.O0TT0, RDF.type, BDA.AdminData))
+DSOG.add((BDA.O0TT0, ADM.adminAbout, BDR.O0TT0))
+DSOG.add((BDA.O0TT0, ADM.graphId, BDG.O0TT0))
+DSOG.add((BDA.O0TT0, ADM.status, BDA.StatusWithdrawn))
+DSOG.add((BDR.O0TT0, RDF.type, BDO.Outline))
+DSOG.add((BDR.O0TT0, BDO.authorshipStatement, Literal("BDRC, based on data provided by DILA", lang="en")))
+DSOG.add((BDR.O0TT0, BDO.outlineOf, BDR.MW0TT0))
+DSOG.add((BDR.O0TT0, BDO.paginationType, BDR.PaginationRelative))
+
+# sat iiif outline graph, W0TT0000
+SIOF = rdflib.Graph()
+SIOF.namespace_manager = NSM
+SIOF.add((BDA.O0TT0000, RDF.type, BDA.AdminData))
+SIOF.add((BDA.O0TT0000, ADM.adminAbout, BDR.O0TT0000))
+SIOF.add((BDA.O0TT0000, ADM.graphId, BDG.O0TT0000))
+SIOF.add((BDA.O0TT0000, ADM.status, BDA.StatusReleased))
+SIOF.add((BDR.O0TT0000, RDF.type, BDO.Outline))
+SIOF.add((BDR.O0TT0000, BDO.authorshipStatement, Literal("BDRC, based on data provided by DILA", lang="en")))
+SIOF.add((BDR.O0TT0000, BDO.outlineOf, BDR.MW0TT0000))
+SIOF.add((BDR.O0TT0000, BDO.paginationType, BDR.PaginationRelative))
+
 pi = 1
 for cat in CATS:
     res = BDR[cat[1]]
-    LOD_G.add((BDR[MAIN_TAISHO_RID], BDO.hasPart, res))
-    LOD_G.add((res, RDF.type, BDO.Instance))
-    LOD_G.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
-    LOD_G.add((res, BDO.partType, BDR.PartTypeSection))
-    LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
+    DSOG.add((BDR["W0TT0"], BDO.hasPart, res))
+    DSOG.add((res, RDF.type, BDO.Instance))
+    DSOG.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
+    DSOG.add((res, BDO.partType, BDR.PartTypeSection))
+    DSOG.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
+    SIOF.add((BDR["W0TT0000"], BDO.hasPart, res))
+    SIOF.add((res, RDF.type, BDO.Instance))
+    SIOF.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
+    SIOF.add((res, BDO.partType, BDR.PartTypeSection))
+    SIOF.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
     cl = BDR["CL"+cat[1]]
-    LOD_G.add((res, BDO.contentLocation, cl))
-    LOD_G.add((cl, RDF.type, BDO.ContentLocation))
-    if DIRECTSCANS:
-        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
-    else:
-        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
-    LOD_G.add((cl, BDO.contentLocationVolume, Literal(cat[6], datatype=XSD.integer)))
-    LOD_G.add((cl, BDO.contentLocationEndVolume, Literal(cat[7], datatype=XSD.integer)))
-    LOD_G.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
+    DSOG.add((res, BDO.contentLocation, cl))
+    DSOG.add((cl, RDF.type, BDO.ContentLocation))
+    SIOF.add((res, BDO.contentLocation, cl))
+    SIOF.add((cl, RDF.type, BDO.ContentLocation))
+    DSOG.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
+    SIOF.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
+    DSOG.add((cl, BDO.contentLocationVolume, Literal(cat[6], datatype=XSD.integer)))
+    DSOG.add((cl, BDO.contentLocationEndVolume, Literal(cat[7], datatype=XSD.integer)))
+    DSOG.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
+    SIOF.add((cl, BDO.contentLocationVolume, Literal(cat[6], datatype=XSD.integer)))
+    SIOF.add((cl, BDO.contentLocationEndVolume, Literal(cat[7], datatype=XSD.integer)))
+    SIOF.add((res, BDO.partIndex, Literal(pi, datatype=XSD.integer)))
     if row[2]:
-        LOD_G.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
+        DSOG.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
+        SIOF.add((res, SKOS.altLabel, Literal(cat[2], lang="en")))
     if row[3]:
-        LOD_G.add((res, SKOS.altLabel, Literal(cat[3], lang="sa-x-iast")))
+        DSOG.add((res, SKOS.altLabel, Literal(cat[3], lang="sa-x-iast")))
+        SIOF.add((res, SKOS.altLabel, Literal(cat[3], lang="sa-x-iast")))
     if row[4]:
-        LOD_G.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-hant")))
+        DSOG.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-hant")))
+        SIOF.add((res, SKOS.prefLabel, Literal(cat[4], lang="zh-hant")))
     pi += 1
 
 
@@ -296,17 +330,26 @@ for T in ALL_T:
         parentsLastPart[parent] = 1
     else:
         parentsLastPart[parent] += 1
-    res = BDR[tid_to_taishopart(T)]
-    LOD_G.add((BDR[parent], BDO.hasPart, res))
-    LOD_G.add((res, RDF.type, BDO.Instance))
-    LOD_G.add((res, BDO.partOf, BDR[parent]))
-    LOD_G.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
-    LOD_G.add((res, BDO.partType, BDR.PartTypeText))
-    LOD_G.add((res, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
-    anode = rdflib.BNode()
-    LOD_G.add((res,BF.identifiedBy,anode))
-    LOD_G.add((anode,RDF.type,BDR.CBCSiglaT))
-    LOD_G.add((anode,RDF.value,Literal(T)))
+    res_dsog = BDR["MW0TT%s" % T]
+    res_siof = BDR["MW0TT%s" % T]
+    DSOG.add((BDR[parent], BDO.hasPart, res_dsog))
+    SIOF.add((BDR[parent], BDO.hasPart, res_siof))
+    DSOG.add((res_dsog, RDF.type, BDO.Instance))
+    SIOF.add((res_siof, RDF.type, BDO.Instance))
+    DSOG.add((res_dsog, BDO.partOf, BDR[parent]))
+    SIOF.add((res_siof, BDO.partOf, BDR[parent]))
+    DSOG.add((res_dsog, BDO.inRootInstance, BDR.MW0TT0))
+    SIOF.add((res_siof, BDO.inRootInstance, BDR.MW0TT0000))
+    DSOG.add((res_dsog, BDO.partType, BDR.PartTypeText))
+    SIOF.add((res_siof, BDO.partType, BDR.PartTypeText))
+    DSOG.add((res_dsog, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
+    SIOF.add((res_siof, BDO.partIndex, Literal(parentsLastPart[parent], datatype=XSD.integer)))
+    DSOG.add((res_dsog,BF.identifiedBy,BDR["IDO0TT0"+T]))
+    SIOF.add((res_siof,BF.identifiedBy,BDR["IDO0TT0000"+T]))
+    DSOG.add((BDR["IDO0TT0"+T],RDF.type,BDR.CBCSiglaT))
+    SIOF.add((BDR["IDO0TT0000"+T],RDF.type,BDR.CBCSiglaT))
+    DSOG.add((BDR["IDO0TT0"+T],RDF.value,Literal(T)))
+    SIOF.add((BDR["IDO0TT0000"+T],RDF.value,Literal(T)))
     hasIndic = (taisho_id_to_int(T) < 1693)
     exprln = tid_to_expr(T)
     expr = BDR[exprln]
@@ -316,9 +359,11 @@ for T in ALL_T:
     if abst:
         LOD_G.add((abst, RDF.type, BDO.Work))
         LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, abst))
-    LOD_G.add((res, BDO.instanceOf, expr))
+    DSOG.add((res_dsog, BDO.instanceOf, expr))
+    SIOF.add((res_siof, BDO.instanceOf, expr))
     LOD_G.add((BDA[MAIN_TAISHO_RID], ADM.adminAbout, expr))
-    LOD_G.add((expr, BDO.workHasInstance, res))
+    DSOG.add((expr, BDO.workHasInstance, res_dsog))
+    SIOF.add((expr, BDO.workHasInstance, res_siof))
     LOD_G.add((expr, BDO.language, BDR.LangZh))
     LOD_G.add((expr, RDF.type, BDO.Work))
     if hasIndic and abst:
@@ -340,17 +385,22 @@ for T in ALL_T:
         #LOD_G.add((expr, ADM.seeOtherCBETA, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
         LOD_G.add((expr, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
         LOD_G.add((expr, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
-        LOD_G.add((res, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
-        LOD_G.add((res, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
+        DSOG.add((res_dsog, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
+        SIOF.add((res_siof, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
+        DSOG.add((res_dsog, RDFS.seeAlso, Literal("http://21dzk.l.u-tokyo.ac.jp/SAT2018/%s.html" % TforSAT, datatype=XSD.anyURI)))
+        SIOF.add((res_siof, RDFS.seeAlso, Literal("http://cbetaonline.dila.edu.tw/%s" % T, datatype=XSD.anyURI)))
     if T in T_TO_CN:
         # TODO: maybe incipit title?
         title = Literal(T_TO_CN[T], lang="zh-hant")
-        LOD_G.add((res, SKOS.prefLabel, title))
+        DSOG.add((res_dsog, SKOS.prefLabel, title))
+        SIOF.add((res_siof, SKOS.prefLabel, title))
         LOD_G.add((expr, SKOS.prefLabel, title))
-        titlenode = rdflib.BNode()
-        LOD_G.add((res, BDO.hasTitle, titlenode))
-        LOD_G.add((titlenode, RDF.type, BDO.IncipitTitle))
-        LOD_G.add((titlenode, RDFS.label, title))
+        DSOG.add((res_dsog, BDO.hasTitle, BDR["TTO0TT0"+T]))
+        SIOF.add((res_siof, BDO.hasTitle, BDR["TTO0TT0000"+T]))
+        DSOG.add((BDR["TTO0TT0"+T], RDF.type, BDO.IncipitTitle))
+        SIOF.add((BDR["TTO0TT0000"+T], RDF.type, BDO.IncipitTitle))
+        DSOG.add((BDR["TTO0TT0"+T], RDFS.label, title))
+        SIOF.add((BDR["TTO0TT0000"+T], RDFS.label, title))
         #LOD_G.add((abst, SKOS.prefLabel, title))
     if T in T_TO_TRANS:
         # TODO: maybe incipit title?
@@ -361,43 +411,41 @@ for T in ALL_T:
         for skt in T_TO_SKT[T]:
             if abst:
                 LOD_G.add((abst, SKOS.altLabel, Literal(skt, lang="sa-x-iast")))
-    if SATIMAGES:
-        if hastextparent:
-            # SAT doesn't have manifests for subparts
-            continue
+    if not hastextparent:
+        # SAT doesn't have manifests for subparts
         volnum = T_TO_VOLNUM[T]
         item = BDR[tid_to_item_sat(T)]
-        LOD_G.add((item, RDF.type, BDO.ImageInstance))
-        LOD_G.add((item, TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
-        LOD_G.add((item, BDO.instanceOf, expr))
-        LOD_G.add((item, BDO.instanceReproductionOf, res))
-        LOD_G.add((res, BDO.instanceHasReproduction, item))
-        LOD_G.add((itemA, ADM.adminAbout, item))
+        SIOF.add((item, RDF.type, BDO.ImageInstance))
+        SIOF.add((item, TMP.thumbnailIIIFService, URIRef("https://candra.dhii.jp/iipsrv/iipsrv.fcgi?IIIF=/taisho/01/01_0001.tif")))
+        SIOF.add((item, BDO.instanceOf, expr))
+        SIOF.add((item, BDO.instanceReproductionOf, res_siof))
+        SIOF.add((res_siof, BDO.instanceHasReproduction, item))
+        SIOF.add((itemA, ADM.adminAbout, item))
         vol = BDR[tid_to_volume_sat(T, volnum)]
-        LOD_G.add((vol, RDF.type, BDO.ImageGroup))
-        LOD_G.add((vol, RDF.type, BDO.Volume))
-        LOD_G.add((item, BDO.instanceHasVolume, vol))
-        LOD_G.add((vol, BDO.volumeOf, item))
-        LOD_G.add((vol, BDO.volumeNumber, Literal(volnum, datatype=XSD.integer)))
+        SIOF.add((vol, RDF.type, BDO.ImageGroup))
+        SIOF.add((vol, RDF.type, BDO.Volume))
+        SIOF.add((item, BDO.instanceHasVolume, vol))
+        SIOF.add((vol, BDO.volumeOf, item))
+        SIOF.add((vol, BDO.volumeNumber, Literal(volnum, datatype=XSD.integer)))
         manifest = tid_to_manifest_sat(TforSAT, volnum)
-        LOD_G.add((vol, BDO.hasIIIFManifest, manifest))
-        cl = BDR["CLW0TT0"+T]
-        LOD_G.add((res, BDO.contentLocation, cl))
-        LOD_G.add((cl, RDF.type, BDO.ContentLocation))
-        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
-        LOD_G.add((cl, BDO.contentLocationVolume, Literal(volnum, datatype=XSD.integer)))
-    if DIRECTSCANS:
-        if T not in BDRCLOCS:
-            continue
+        SIOF.add((vol, BDO.hasIIIFManifest, manifest))
+        cl = BDR["CLW0TT0000"+T]
+        SIOF.add((res_siof, BDO.contentLocation, cl))
+        SIOF.add((cl, RDF.type, BDO.ContentLocation))
+        SIOF.add((cl, BDO.contentLocationInstance, BDR["W0TT0000"]))
+        SIOF.add((cl, BDO.contentLocationVolume, Literal(volnum, datatype=XSD.integer)))
+    if T in BDRCLOCS:
         loc = BDRCLOCS[T]
         cl = BDR["CLW0TT0"+T]
-        LOD_G.add((res, BDO.contentLocation, cl))
-        LOD_G.add((cl, RDF.type, BDO.ContentLocation))
-        LOD_G.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
-        LOD_G.add((cl, BDO.contentLocationVolume, Literal(loc["bvol"], datatype=XSD.integer)))
+        DSOG.add((res_dsog, BDO.contentLocation, cl))
+        DSOG.add((cl, RDF.type, BDO.ContentLocation))
+        DSOG.add((cl, BDO.contentLocationInstance, BDR["W0TT0"]))
+        DSOG.add((cl, BDO.contentLocationVolume, Literal(loc["bvol"], datatype=XSD.integer)))
         if loc["bvol"] != loc["evol"]:
-            LOD_G.add((cl, BDO.contentLocationEndVolume, Literal(loc["evol"], datatype=XSD.integer)))
-        LOD_G.add((cl, BDO.contentLocationPage, Literal(loc["bpage"], datatype=XSD.integer)))
-        LOD_G.add((cl, BDO.contentLocationEndPage, Literal(loc["epage"], datatype=XSD.integer)))
+            DSOG.add((cl, BDO.contentLocationEndVolume, Literal(loc["evol"], datatype=XSD.integer)))
+        DSOG.add((cl, BDO.contentLocationPage, Literal(loc["bpage"], datatype=XSD.integer)))
+        DSOG.add((cl, BDO.contentLocationEndPage, Literal(loc["epage"], datatype=XSD.integer)))
 
-LOD_G.serialize("CBC-cl.ttl", format="turtle")
+LOD_G.serialize("CBC.ttl", format="turtle")
+DSOG.serialize("O0TT0.ttl", format="turtle")
+SIOF.serialize("O0TT0000.ttl", format="turtle")

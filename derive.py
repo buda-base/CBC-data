@@ -108,24 +108,37 @@ def normalize_k_id(id):
     numpartint = int(numpart)
     return "%s%04d%s" % (prefix, int(numpart),suffix)
 
+def normalize_id(id, prefix):
+    id = id.strip().replace(' ', '')
+    if '(' in id:
+        id = id.replace('(', '-').replace(')', '')
+    dashidx = id.find('-')
+    numpart = id
+    suffix = ""
+    if dashidx != -1:
+        numpart = id[:dashidx]
+        suffix = id[dashidx:]
+    if numpart[-1].isalpha():
+        suffix = numpart[-1].upper()+suffix
+        numpart = numpart[:-1]
+    numpartint = int(numpart)
+    return "%s%04d%s" % (prefix, int(numpart),suffix)
+
 T_TO_PART = {}
 
-with open('input/W3CN27014.csv', newline='') as csvfile:
-    tkreader = csv.reader(csvfile)
-    next(tkreader)
-    for row in tkreader:
-        if row[0] == "":
-            continue
-        k = normalize_k_id(row[0])
-        t = None
-        if row[6] != "":
-            t = normalize_taisho_id(row[6])
-            if t not in T_TO_PART:
-                T_TO_PART[t] = []
-            T_TO_PART[t].append("MW3CN27014_"+k)
+print("convert W3CN27014")
 
 reg = rdflib.Graph()
 reg.namespace_manager = NSM
+reg.add((BDA.O3CN27014, RDF.type, BDA.AdminData))
+reg.add((BDA.O3CN27014, ADM.adminAbout, BDR.O3CN27014))
+reg.add((BDA.O3CN27014, ADM.graphId, BDG.O3CN27014))
+reg.add((BDA.O3CN27014, ADM.status, BDA.StatusReleased))
+reg.add((BDR.O3CN27014, RDF.type, BDO.Outline))
+reg.add((BDR.O3CN27014, BDO.authorshipStatement, Literal("Outline and correspondence with Taisho kindly provided by DILA. Review and link to images by Chungdak Nangpa.", lang="en")))
+reg.add((BDR.O3CN27014, BDO.outlineOf, BDR.MW3CN27014))
+reg.add((BDR.O3CN27014, BDO.paginationType, BDR.PaginationRelative))
+
 with open('input/W3CN27014.csv', newline='') as csvfile:
     tkreader = csv.reader(csvfile)
     next(tkreader)
@@ -157,10 +170,11 @@ with open('input/W3CN27014.csv', newline='') as csvfile:
         if row[6] != "":
             t = normalize_taisho_id(row[6])
             reg.add((mw, BDO.instanceOf, BDR["WA0TTE"+t]))
+            reg.add((BDR["WA0TTE"+t], BDO.workHasInstance, mw))
         if row[9] != "":
             reg.add((mw, SKOS.prefLabel, Literal(row[9], lang="zh-hant")))
             reg.add((mw, SKOS.hiddenLabel, Literal(row[1], lang="zh-hant")))
-        elif row[1] != "":
+        if row[1] != "":
             titlel = Literal(row[1], lang="zh-hant")
             reg.add((mw, SKOS.prefLabel, titlel))
             titlenode = BDR["TTMW3CN27014_"+k]
@@ -182,12 +196,179 @@ with open('input/W3CN27014.csv', newline='') as csvfile:
         if row[5] != row[2]:
             reg.add((clr, BDO.contentLocationEndVolume, Literal(row[5], datatype=XSD.integer)))
         reg.add((clr, BDO.contentLocationInstance, rootw))
+        if row[10]:
+            note = BDR["NTMW3CN27014_"+k]
+            reg.add((mw, BDO.note, note))
+            reg.add((note, RDF.type, BDO.Note))
+            reg.add((note, BDO.noteText, Literal(row[10], lang="zh-Hani")))
 
-reg.serialize("derived/MW3CN27014.ttl", format="turtle")
+reg.serialize("O3CN27014.ttl", format="turtle")
+
+print("convert W3CN27011")
+
+reg = rdflib.Graph()
+reg.namespace_manager = NSM
+reg.add((BDA.O3CN27011, RDF.type, BDA.AdminData))
+reg.add((BDA.O3CN27011, ADM.adminAbout, BDR.O3CN27011))
+reg.add((BDA.O3CN27011, ADM.graphId, BDG.O3CN27011))
+reg.add((BDA.O3CN27011, ADM.status, BDA.StatusReleased))
+reg.add((BDR.O3CN27011, RDF.type, BDO.Outline))
+reg.add((BDR.O3CN27011, BDO.authorshipStatement, Literal("Outline and correspondence with Taisho kindly provided by DILA. Review and link to images by Chungdak Nangpa.", lang="en")))
+reg.add((BDR.O3CN27011, BDO.outlineOf, BDR.MW3CN27011))
+reg.add((BDR.O3CN27011, BDO.paginationType, BDR.PaginationRelative))
+
+with open('input/W3CN27011.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    next(tkreader)
+    next(tkreader)
+    mainparti = 0
+    subparti = 0
+    rootw = BDR["W3CN27011"]
+    rootmw = BDR["MW3CN27011"]
+    previousText = None
+    for row in tkreader:
+        if row[5] == "":
+            continue
+        k = normalize_id(row[5], "L")
+        mw = BDR["MW3CN27011_"+k]
+        if '-' in k:
+            subparti += 1
+            reg.add((mw, BDO.partOf, previousText))
+            reg.add((mw, BDO.partIndex, Literal(subparti, datatype=XSD.integer)))
+            reg.add((previousText, BDO.hasPart, mw))
+        else:
+            previousText = mw
+            mainparti += 1
+            subparti = 0
+            reg.add((mw, BDO.partOf, rootmw))
+            reg.add((rootmw, BDO.hasPart, mw))
+            reg.add((mw, BDO.partIndex, Literal(mainparti, datatype=XSD.integer)))
+        reg.add((mw, RDF.type, BDO.Instance))
+        reg.add((mw, BDO.inRootInstance, rootmw))
+        reg.add((mw, BDO.partType, BDR.PartTypeText))
+        if row[8] != "":
+            if row[8] == "1716,1717":
+                reg.add((mw, BDO.instanceOf, BDR["WA0TTE1716"]))
+                reg.add((BDR["WA0TTE1716"], BDO.workHasInstance, mw))
+                reg.add((mw, BDO.instanceOf, BDR["WA0TTE1717"]))
+                reg.add((BDR["WA0TTE1717"], BDO.workHasInstance, mw))
+            else:
+                t = normalize_taisho_id(row[8])
+                reg.add((mw, BDO.instanceOf, BDR["WA0TTE"+t]))
+                reg.add((BDR["WA0TTE"+t], BDO.workHasInstance, mw))
+        if row[6] != "":
+            titlel = Literal(row[6], lang="zh-hant")
+            reg.add((mw, SKOS.prefLabel, titlel))
+            titlenode = BDR["TTMW3CN27011_"+k]
+            reg.add((mw, BDO.hasTitle, titlenode))
+            reg.add((titlenode, RDF.type, BDO.IncipitTitle))
+            reg.add((titlenode, RDFS.label, titlel))
+        idr = BDR["IDMW3CN27011_"+k]
+        reg.add((mw, BF.identifiedBy, idr))
+        reg.add((idr, RDF.type, BDR.CBCSiglaL))
+        reg.add((idr, RDF.value, Literal(k)))
+        clr = BDR["CLMW3CN27011_"+k]
+        reg.add((mw, BDO.contentLocation, clr))
+        reg.add((clr, RDF.type, BDO.ContentLocation))
+        if row[2]:
+            reg.add((clr, BDO.contentLocationPage, Literal(row[2], datatype=XSD.integer)))
+        reg.add((clr, BDO.contentLocationVolume, Literal(row[1], datatype=XSD.integer)))
+        if row[3]:
+            reg.add((clr, BDO.contentLocationEndPage, Literal(row[3], datatype=XSD.integer)))
+        if row[4] != row[1]:
+            reg.add((clr, BDO.contentLocationEndVolume, Literal(row[4], datatype=XSD.integer)))
+        reg.add((clr, BDO.contentLocationInstance, rootw))
+        if row[9]:
+            note = BDR["NTMW3CN27011_"+k]
+            reg.add((mw, BDO.note, note))
+            reg.add((note, RDF.type, BDO.Note))
+            reg.add((note, BDO.noteText, Literal(row[9], lang="zh-Hani")))
+
+reg.serialize("O3CN27011.ttl", format="turtle")
+
+QTOT = {}
+with open('input/qtcorr.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    next(tkreader)
+    for row in tkreader:
+        QTOT[row[1]] = row[0]
+
+reg = rdflib.Graph()
+reg.namespace_manager = NSM
+reg.add((BDA.O3CN27012, RDF.type, BDA.AdminData))
+reg.add((BDA.O3CN27012, ADM.adminAbout, BDR.O3CN27012))
+reg.add((BDA.O3CN27012, ADM.graphId, BDG.O3CN27012))
+reg.add((BDA.O3CN27012, ADM.status, BDA.StatusReleased))
+reg.add((BDR.O3CN27012, RDF.type, BDO.Outline))
+reg.add((BDR.O3CN27012, BDO.authorshipStatement, Literal("Outline and correspondence with Taisho kindly provided by DILA. Review and link to images by Chungdak Nangpa.", lang="en")))
+reg.add((BDR.O3CN27012, BDO.outlineOf, BDR.MW3CN27012))
+reg.add((BDR.O3CN27012, BDO.paginationType, BDR.PaginationRelative))
+
+print("convert W3CN27012")
+
+with open('input/W3CN27012.csv', newline='') as csvfile:
+    tkreader = csv.reader(csvfile)
+    next(tkreader)
+    mainparti = 0
+    subparti = 0
+    rootw = BDR["W3CN27012"]
+    rootmw = BDR["MW3CN27012"]
+    previousText = None
+    for row in tkreader:
+        if row[5] == "":
+            continue
+        k = normalize_id(row[7], "S")
+        mw = BDR["MW3CN27012_"+k]
+        if '-' in k:
+            subparti += 1
+            reg.add((mw, BDO.partOf, previousText))
+            reg.add((mw, BDO.partIndex, Literal(subparti, datatype=XSD.integer)))
+            reg.add((previousText, BDO.hasPart, mw))
+        else:
+            previousText = mw
+            mainparti += 1
+            subparti = 0
+            reg.add((mw, BDO.partOf, rootmw))
+            reg.add((rootmw, BDO.hasPart, mw))
+            reg.add((mw, BDO.partIndex, Literal(mainparti, datatype=XSD.integer)))
+        reg.add((mw, RDF.type, BDO.Instance))
+        reg.add((mw, BDO.inRootInstance, rootmw))
+        reg.add((mw, BDO.partType, BDR.PartTypeText))
+        if k[1:] in QTOT:
+            t = normalize_taisho_id(QTOT[k[1:]])
+            reg.add((mw, BDO.instanceOf, BDR["WA0TTE"+t]))
+            reg.add((BDR["WA0TTE"+t], BDO.workHasInstance, mw))
+        if row[6] != "":
+            titlel = Literal(row[6], lang="zh-hant")
+            reg.add((mw, SKOS.prefLabel, titlel))
+            titlenode = BDR["TTMW3CN27012_"+k]
+            reg.add((mw, BDO.hasTitle, titlenode))
+            reg.add((titlenode, RDF.type, BDO.IncipitTitle))
+            reg.add((titlenode, RDFS.label, titlel))
+        idr = BDR["IDMW3CN27012_"+k]
+        reg.add((mw, BF.identifiedBy, idr))
+        reg.add((idr, RDF.type, BDR.CBCSiglaS))
+        reg.add((idr, RDF.value, Literal(k)))
+        if row[1]:
+            clr = BDR["CLMW3CN27012_"+k]
+            reg.add((mw, BDO.contentLocation, clr))
+            reg.add((clr, RDF.type, BDO.ContentLocation))
+            if row[2]:
+                reg.add((clr, BDO.contentLocationPage, Literal(row[2], datatype=XSD.integer)))
+            reg.add((clr, BDO.contentLocationVolume, Literal(row[1], datatype=XSD.integer)))
+            if row[3]:
+                reg.add((clr, BDO.contentLocationEndPage, Literal(row[3], datatype=XSD.integer)))
+            if row[4] != row[1]:
+                reg.add((clr, BDO.contentLocationEndVolume, Literal(row[4], datatype=XSD.integer)))
+            reg.add((clr, BDO.contentLocationInstance, rootw))
+        if row[11]:
+            note = BDR["NTMW3CN27012_"+k]
+            reg.add((mw, BDO.note, note))
+            reg.add((note, RDF.type, BDO.Note))
+            reg.add((note, BDO.noteText, Literal(row[11], lang="zh-Hani")))
 
 
-with open('derived/t_to_part.json', 'w', encoding='utf-8') as f:
-    json.dump(T_TO_PART, f, ensure_ascii=False, indent=4)
+reg.serialize("O3CN27012.ttl", format="turtle")
 
 def taisho_to_group_id(id):
     id = normalize_taisho_id(id)
