@@ -249,12 +249,12 @@ SIOF.add((BDR.O0TT0000, BDO.paginationType, BDR.PaginationRelative))
 pi = 1
 for cat in CATS:
     res = BDR[cat[1]]
-    DSOG.add((BDR["W0TT0"], BDO.hasPart, res))
+    DSOG.add((BDR["MW0TT0"], BDO.hasPart, res))
     DSOG.add((res, RDF.type, BDO.Instance))
     DSOG.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
     DSOG.add((res, BDO.partType, BDR.PartTypeSection))
     DSOG.add((res, BDO.inRootInstance, BDR[MAIN_TAISHO_RID]))
-    SIOF.add((BDR["W0TT0000"], BDO.hasPart, res))
+    SIOF.add((BDR["MW0TT0000"], BDO.hasPart, res))
     SIOF.add((res, RDF.type, BDO.Instance))
     SIOF.add((res, BDO.partOf, BDR[MAIN_TAISHO_RID]))
     SIOF.add((res, BDO.partType, BDR.PartTypeSection))
